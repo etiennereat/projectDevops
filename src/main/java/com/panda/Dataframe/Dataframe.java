@@ -1,4 +1,6 @@
-package main.java.com.panda.Dataframe;
+package com.panda.Dataframe;
+
+import com.panda.Dataframe.DataCol;
 
 import java.util.ArrayList;
 
