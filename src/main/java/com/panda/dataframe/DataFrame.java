@@ -62,15 +62,13 @@ public class DataFrame {
         return (ArrayList<String>) labels.clone();
     }
 
-    public void showAll(){
+    public void show(){
         //Todo
     }
 
-    public void showCol(String label){
+
+    public void show (String index) {
         //Todo
     }
 
-    public void showRow(String index){
-        //Todo
-    }
 }
