@@ -1,4 +1,4 @@
-name: Java CI on push and/or PR
+name: PR validation
 
 on:
   pull_request:
@@ -25,5 +25,10 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: Unit tests
+        run:
+          mvn verify --file pom.xml
+
+      - name: Build
+        run:
+          mvn -B package --file pom.xml
