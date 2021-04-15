@@ -6,6 +6,8 @@ public interface DataCol {
 
     public void show();
 
+    public void show(String index);
+
     public ColType getType();
 
     public ArrayList<String> getIndexes();
