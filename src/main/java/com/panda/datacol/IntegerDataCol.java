@@ -47,7 +47,7 @@ public class IntegerDataCol extends DataCol<Integer> {
         // get the min length
         int elementsCount = Math.min(values.length, indexes.length);
 
-        // fin in data
+        // fill in data
         for (int i = 0; i < elementsCount; i++) {
             add(values[i], indexes[i]);
         }

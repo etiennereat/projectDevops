@@ -9,22 +9,22 @@ import java.util.ArrayList;
 /**
  * Unit test for simple DoubleDataCol.
  */
-public class DoubleDataColTest {
+public class BooleanDataColTest {
 
     @Test
-    @DisplayName("Test DoubleDataCol()")
+    @DisplayName("Test BooleanDataCol()")
     public void testConstructorMain() {
-        DoubleDataCol dc = new DoubleDataCol();
-        Assertions.assertSame(ColType.DOUBLE, dc.getType());
+        BooleanDataCol dc = new BooleanDataCol();
+        Assertions.assertSame(ColType.BOOLEAN, dc.getType());
         Assertions.assertSame(0, dc.getSize());
         Assertions.assertSame(0, dc.getIndexes().size());
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v)")
+    @DisplayName("Test BooleanDataCol(int[] v)")
     public void testConstructorWithValues() {
-        double[] values = {1, 2, 3};
-        DoubleDataCol dc = new DoubleDataCol(values);
+        boolean[] values = {true, false, true};
+        BooleanDataCol dc = new BooleanDataCol(values);
 
         Assertions.assertSame(values.length, dc.getSize());
 
@@ -38,12 +38,12 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i)")
+    @DisplayName("Test BooleanDataCol(int[] v, String[] i)")
     public void testConstructorWithValuesAndIndexes() {
-        double[] values = {1, 2, 3};
+        boolean[] values = {true, false, true};
         String[] indexes = {"a", "b", "c"};
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
         Assertions.assertSame(values.length, dc.getSize());
 
@@ -57,24 +57,24 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i), empty i")
+    @DisplayName("Test BooleanDataCol(int[] v, String[] i), empty i")
     public void testConstructorWithValuesAndNoIndexes() {
-        double[] values = {1, 2, 3};
+        boolean[] values = {true, false, true};
         String[] indexes = {};
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
         Assertions.assertSame(indexes.length, dc.getSize());
         Assertions.assertSame(indexes.length, dc.getIndexes().size());
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i), less indexes")
+    @DisplayName("Test BooleanDataCol(int[] v, String[] i), less indexes")
     public void testConstructorWithValuesAndLessIndexes() {
-        double[] values = {1, 2, 3};
+        boolean[] values = {true, false, true};
         String[] indexes = {"a", "b"};
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
         // min(v.len, i.len) items are assigned
         Assertions.assertSame(indexes.length, dc.getSize());
@@ -90,41 +90,40 @@ public class DoubleDataColTest {
     @Test
     @DisplayName("Test add(int v)")
     public void testAddValue() {
-        DoubleDataCol dc = new DoubleDataCol();
-        dc.add(1.0);
+        BooleanDataCol dc = new BooleanDataCol();
+        dc.add(false);
         // min(v.len, i.len) items are assigned
         Assertions.assertSame(1, dc.getSize());
 
         ArrayList<String> indexes = dc.getIndexes();
-        Assertions.assertEquals(1, dc.get(indexes.get(0)));
+        Assertions.assertEquals(false, dc.get(indexes.get(0)));
     }
 
     @Test
     @DisplayName("Test add(int v, String i)")
     public void testAddValueWithIndex() {
-        DoubleDataCol dc = new DoubleDataCol();
-        double value = 4224;
+        BooleanDataCol dc = new BooleanDataCol();
         String index = "42";
-        dc.add(value, index);
+        dc.add(true, index);
         // min(v.len, i.len) items are assigned
         Assertions.assertSame(1, dc.getSize());
         // is this the right element
-        Assertions.assertEquals(value, dc.get(index));
+        Assertions.assertEquals(true, dc.get(index));
     }
 
     @Test
     @DisplayName("Test add(int v, String i), update existing val")
     public void testUpdateAdd() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, true, false, false};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
-        String index = indexes[3];
-        double newValue = 42.0;
+        String index = indexes[0];
+        boolean newValue = false;
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
-        dc.add(newValue, index);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        dc.add(false, index);
         // item successfully updated
-        Assertions.assertEquals(newValue, dc.get(index));
+        Assertions.assertEquals(false, dc.get(index));
         // keeps the same number of ids
         Assertions.assertSame(indexes.length, dc.getSize());
     }
@@ -132,41 +131,41 @@ public class DoubleDataColTest {
     @Test
     @DisplayName("Test get(String i), existing")
     public void testGetExisting() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, false, false, false};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
-        double value = values[1];
+        boolean value = false;
         String index = indexes[1];
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
-        double res = dc.get(index);
-        Assertions.assertEquals(value, res);
+        boolean res = dc.get(index);
+        Assertions.assertFalse(res);
     }
 
     @Test
     @DisplayName("Test get(String i), non existing")
     public void testGetNonExisting() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, false, false, true};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "z";
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
-        Double res = dc.get(index);
+        Boolean res = dc.get(index);
         Assertions.assertSame(null, res);
     }
 
     @Test
     @DisplayName("Test remove(String i), existing")
     public void testRemoveExisting() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, false, false, true};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "b";
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
 
         boolean res = dc.remove(index);
         Assertions.assertTrue(res);
@@ -179,12 +178,12 @@ public class DoubleDataColTest {
     @Test
     @DisplayName("Test remove(String i), non existing")
     public void testRemoveNonExisting() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, false, false, true};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "z";
 
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
         Assertions.assertSame(values.length, dc.getSize());
 
         boolean res = dc.remove(index);
@@ -194,25 +193,25 @@ public class DoubleDataColTest {
     @Test
     @DisplayName("Test toString(String i)")
     public void testToString() {
-        double[] values = {1, 2, 3, 4, 5};
-        DoubleDataCol dc = new DoubleDataCol(values);
-        Assertions.assertEquals("1.0 2.0 3.0 4.0 5.0", dc.toString());
+        boolean[] values = {true, false, false, false, true};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        Assertions.assertEquals("true false false false true", dc.toString());
     }
 
     @Test
     @DisplayName("Test toString(String i), missing value")
     public void testToStringMissingCell() {
-        double[] values = {1, 2, 3, 4, 5};
+        boolean[] values = {true, false, false, true, false};
         String[] indexes = {"a", "b", "c", "d", "e"};
-        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
         dc.remove(indexes[2]);
-        Assertions.assertEquals("1.0 2.0 NaN 4.0 5.0", dc.toString());
+        Assertions.assertEquals("true false NaN true false", dc.toString());
     }
 
     @Test
     @DisplayName("Test toString(String i), empty column")
     public void testToStringEmptyCol() {
-        DoubleDataCol dc = new DoubleDataCol();
+        BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
 }

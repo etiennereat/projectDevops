@@ -123,7 +123,7 @@ public abstract class DataCol<T> {
     /**
      * Prints the items of the column.
      */
-    protected void show() {
+    public void show() {
         System.out.println(this);
     }
 
@@ -139,7 +139,8 @@ public abstract class DataCol<T> {
             String value = "NaN";
 
             if (data.containsKey(indexes.get(i))) {
-                value = data.get(indexes.get(i)).toString();
+                T temp = data.get(indexes.get(i));
+                value = temp != null ? String.valueOf(temp) : "NaN";
             }
 
             buffer.append(String.format("%s%s", value, (i != indexes.size() - 1 ? " " : "")));

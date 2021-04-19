@@ -200,6 +200,16 @@ public class IntegerDataColTest {
     }
 
     @Test
+    @DisplayName("Test toString(String i), missing value")
+    public void testToStringMissingCell() {
+        int[] values = {1, 2, 3, 4, 5};
+        String[] indexes = {"a", "b", "c", "d", "e"};
+        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        dc.remove(indexes[2]);
+        Assertions.assertEquals("1 2 NaN 4 5", dc.toString());
+    }
+
+    @Test
     @DisplayName("Test toString(String i), empty column")
     public void testToStringEmptyCol() {
         IntegerDataCol dc = new IntegerDataCol();
