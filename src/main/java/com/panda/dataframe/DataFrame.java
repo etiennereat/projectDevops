@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class DataFrame {
 
-    ArrayList<String> labels;
-    ArrayList<String> indexes;
-    HashMap<String, DataCol> table;
+    protected ArrayList<String> labels;
+    protected ArrayList<String> indexes;
+    protected HashMap<String, DataCol> table;
 
     public DataFrame() {
         this.labels = new ArrayList<>();
@@ -31,6 +31,10 @@ public class DataFrame {
         return addCol(Integer.toString(column.hashCode()), column);
     }
 
+    /**
+     * @param indexes
+     * @todo update indexes / data in all columns
+     */
     private void updateIndexes(ArrayList<String> indexes) {
         for (String index : indexes) {
             if (!this.indexes.contains(index)) {
@@ -72,6 +76,16 @@ public class DataFrame {
     }
 
     /**
+     * Access data frame column by label.
+     *
+     * @param label - column's label
+     * @return reference to the data column object
+     */
+    public DataCol col(String label) {
+        return table.get(label);
+    }
+
+    /**
      * @todo
      */
     public void show() {
@@ -79,8 +93,8 @@ public class DataFrame {
     }
 
     /**
-     * @todo
      * @param index
+     * @todo
      */
     public void show(String index) {
         System.out.printf("Table's '%s' row\n", index);
