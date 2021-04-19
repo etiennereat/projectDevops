@@ -3,14 +3,14 @@ package com.panda.datacol;
 /**
  * DataColumn of Integers.
  */
-public class IntegerDataCol extends AbstractDataCol<Integer> {
+public class StringDataCol extends AbstractDataCol<String> {
 
     /**
      * Default constructor. Initializes data structures and sets the
      * type of the column.
      */
-    public IntegerDataCol() {
-        super(ColType.INTEGER);
+    public StringDataCol() {
+        super(ColType.STRING);
     }
 
     /**
@@ -20,8 +20,8 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
      *
      * @param values - array of cell values
      */
-    public IntegerDataCol(int[] values) {
-        super(ColType.INTEGER);
+    public StringDataCol(String[] values) {
+        super(ColType.STRING);
 
         // fill in data
         for (int i = 0; i < values.length; i++) {
@@ -38,8 +38,8 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
      * @param values  - array of cell values
      * @param indexes - array of indexes
      */
-    public IntegerDataCol(int[] values, String[] indexes) {
-        super(ColType.INTEGER);
+    public StringDataCol(String[] values, String[] indexes) {
+        super(ColType.STRING);
 
         // get the min length
         int elementsCount = Math.min(values.length, indexes.length);

@@ -15,7 +15,6 @@ public class DataFrame {
         this.labels = new ArrayList<>();
         this.table = new HashMap<>();
         this.indexes = new ArrayList<>();
-
     }
 
     public boolean addCol(String label, DataCol column) {

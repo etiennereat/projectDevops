@@ -3,49 +3,30 @@ package com.panda.datacol;
 import java.util.ArrayList;
 
 /**
- * Abstract class offering shared functionality between different
- * types of DataCol-s.
- *
- * @todo select intervals of indexes
- * @todo sort
- * @todo swap
+ * Common interface for all types of DataCol
  */
-public abstract class DataCol {
-
-    protected ColType type;
-    protected ArrayList<String> indexes;
-
-    /**
-     * Print the cells of the column.
-     */
-    abstract public void show();
+public interface DataCol {
 
     /**
      * Returns column's type.
      *
      * @return type
      */
-    public ColType getType() {
-        return type;
-    }
+    ColType getType();
 
     /**
      * Returns a clone of the list of indexes.
      *
      * @return list of indexes
      */
-    public ArrayList<String> getIndexes() {
-        return new ArrayList<>(indexes);
-    }
+    ArrayList<String> getIndexes();
 
     /**
      * Returns the number of cells.
      *
      * @return size
      */
-    public int getSize() {
-        return indexes.size();
-    }
+    int getSize();
 
     /**
      * Removes the cell corresponding to the index. If such an index does
@@ -55,5 +36,10 @@ public abstract class DataCol {
      * @param index - index of the cell to be removed
      * @return cell removal status
      */
-    public abstract boolean remove(String index);
+    boolean remove(String index);
+
+    /**
+     * Prints the items of the column.
+     */
+    void show();
 }
