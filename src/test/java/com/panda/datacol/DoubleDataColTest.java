@@ -1,30 +1,30 @@
 package com.panda.datacol;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 /**
- * Unit test for simple IntegerDataCol.
+ * Unit test for simple DoubleDataCol.
  */
-public class IntegerDataColTest {
+public class DoubleDataColTest {
 
     @Test
-    @DisplayName("Test IntegerDataCol()")
+    @DisplayName("Test DoubleDataCol()")
     public void testConstructorMain() {
-        IntegerDataCol dc = new IntegerDataCol();
-        Assertions.assertSame(ColType.INTEGER, dc.getType());
+        DoubleDataCol dc = new DoubleDataCol();
+        Assertions.assertSame(ColType.DOUBLE, dc.getType());
         Assertions.assertSame(0, dc.getSize());
         Assertions.assertSame(0, dc.getIndexes().size());
     }
 
     @Test
-    @DisplayName("Test IntegerDataCol(int[] v)")
+    @DisplayName("Test DoubleDataCol(int[] v)")
     public void testConstructorWithValues() {
-        int[] values = {1, 2, 3};
-        IntegerDataCol dc = new IntegerDataCol(values);
+        double[] values = {1, 2, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
 
         Assertions.assertSame(values.length, dc.getSize());
 
@@ -38,12 +38,12 @@ public class IntegerDataColTest {
     }
 
     @Test
-    @DisplayName("Test IntegerDataCol(int[] v, String[] i)")
+    @DisplayName("Test DoubleDataCol(int[] v, String[] i)")
     public void testConstructorWithValuesAndIndexes() {
-        int[] values = {1, 2, 3};
+        double[] values = {1, 2, 3};
         String[] indexes = {"a", "b", "c"};
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
         Assertions.assertSame(values.length, dc.getSize());
 
@@ -57,24 +57,24 @@ public class IntegerDataColTest {
     }
 
     @Test
-    @DisplayName("Test IntegerDataCol(int[] v, String[] i), empty i")
+    @DisplayName("Test DoubleDataCol(int[] v, String[] i), empty i")
     public void testConstructorWithValuesAndNoIndexes() {
-        int[] values = {1, 2, 3};
+        double[] values = {1, 2, 3};
         String[] indexes = {};
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
         Assertions.assertSame(indexes.length, dc.getSize());
         Assertions.assertSame(indexes.length, dc.getIndexes().size());
     }
 
     @Test
-    @DisplayName("Test IntegerDataCol(int[] v, String[] i), less indexes")
+    @DisplayName("Test DoubleDataCol(int[] v, String[] i), less indexes")
     public void testConstructorWithValuesAndLessIndexes() {
-        int[] values = {1, 2, 3};
+        double[] values = {1, 2, 3};
         String[] indexes = {"a", "b"};
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
         // min(v.len, i.len) items are assigned
         Assertions.assertSame(indexes.length, dc.getSize());
@@ -90,8 +90,8 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test add(int v)")
     public void testAddValue() {
-        IntegerDataCol dc = new IntegerDataCol();
-        dc.add(1);
+        DoubleDataCol dc = new DoubleDataCol();
+        dc.add(1.0);
         // min(v.len, i.len) items are assigned
         Assertions.assertSame(1, dc.getSize());
 
@@ -102,8 +102,8 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test add(int v, String i)")
     public void testAddValueWithIndex() {
-        IntegerDataCol dc = new IntegerDataCol();
-        int value = 4224;
+        DoubleDataCol dc = new DoubleDataCol();
+        double value = 4224;
         String index = "42";
         dc.add(value, index);
         // min(v.len, i.len) items are assigned
@@ -115,13 +115,13 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test add(int v, String i), update existing val")
     public void testUpdateAdd() {
-        int[] values = {1, 2, 3, 4, 5};
+        double[] values = {1, 2, 3, 4, 5};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = indexes[3];
-        int newValue = 42;
+        double newValue = 42.0;
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
         dc.add(newValue, index);
         // item successfully updated
         Assertions.assertEquals(newValue, dc.get(index));
@@ -132,41 +132,41 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test get(String i), existing")
     public void testGetExisting() {
-        int[] values = {1, 2, 3, 4, 5};
+        double[] values = {1, 2, 3, 4, 5};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
-        int value = values[1];
+        double value = values[1];
         String index = indexes[1];
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
-        int res = dc.get(index);
+        double res = dc.get(index);
         Assertions.assertEquals(value, res);
     }
 
     @Test
     @DisplayName("Test get(String i), non existing")
     public void testGetNonExisting() {
-        int[] values = {1, 2, 3, 4, 5};
+        double[] values = {1, 2, 3, 4, 5};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "z";
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
-        Integer res = dc.get(index);
+        Double res = dc.get(index);
         Assertions.assertSame(null, res);
     }
 
     @Test
     @DisplayName("Test remove(String i), existing")
     public void testRemoveExisting() {
-        int[] values = {1, 2, 3, 4, 5};
+        double[] values = {1, 2, 3, 4, 5};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "b";
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
 
         boolean res = dc.remove(index);
         Assertions.assertTrue(res);
@@ -179,12 +179,12 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test remove(String i), non existing")
     public void testRemoveNonExisting() {
-        int[] values = {1, 2, 3, 4, 5};
+        double[] values = {1, 2, 3, 4, 5};
         String[] indexes = {"a", "b", "c", "d", "e"};
 
         String index = "z";
 
-        IntegerDataCol dc = new IntegerDataCol(values, indexes);
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
         Assertions.assertSame(values.length, dc.getSize());
 
         boolean res = dc.remove(index);
@@ -194,15 +194,15 @@ public class IntegerDataColTest {
     @Test
     @DisplayName("Test toString(String i)")
     public void testToString() {
-        int[] values = {1, 2, 3, 4, 5};
-        IntegerDataCol dc = new IntegerDataCol(values);
-        Assertions.assertEquals("1 2 3 4 5", dc.toString());
+        double[] values = {1, 2, 3, 4, 5};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertEquals("1.0 2.0 3.0 4.0 5.0", dc.toString());
     }
 
     @Test
     @DisplayName("Test toString(String i), empty column")
     public void testToStringEmptyCol() {
-        IntegerDataCol dc = new IntegerDataCol();
+        DoubleDataCol dc = new DoubleDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
 }
