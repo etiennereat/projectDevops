@@ -1,12 +1,9 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  * DataColumn of Integers.
  */
-public class DoubleDataCol extends DataCol<Double> {
+public class DoubleDataCol extends AbstractDataCol<Double> {
 
     /**
      * Default constructor. Initializes data structures and sets the

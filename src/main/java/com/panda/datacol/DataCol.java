@@ -1,107 +1,32 @@
 package com.panda.datacol;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * Abstract class offering shared functionality between different
- * types of DataCol-s.
- *
- * @todo select intervals of indexes
- * @todo sort
- * @todo swap
+ * Common interface for all types of DataCol
  */
-public abstract class DataCol<T> {
-
-    protected ColType type;
-    protected ArrayList<String> indexes;
-    protected HashMap<String, T> data;
-
-    protected DataCol() {
-        data = new HashMap<>();
-        indexes = new ArrayList<>();
-    }
-
-    protected DataCol(ColType type) {
-        this();
-
-        this.type = type;
-    }
+public interface DataCol {
 
     /**
      * Returns column's type.
      *
      * @return type
      */
-    public ColType getType() {
-        return type;
-    }
+    ColType getType();
 
     /**
      * Returns a clone of the list of indexes.
      *
      * @return list of indexes
      */
-    public ArrayList<String> getIndexes() {
-        return new ArrayList<>(indexes);
-    }
+    ArrayList<String> getIndexes();
 
     /**
      * Returns the number of cells.
      *
      * @return size
      */
-    public int getSize() {
-        return indexes.size();
-    }
-
-    /**
-     * Adds a value to an auto-generated index.
-     *
-     * @param value - value to be added
-     */
-    public void add(T value) {
-        int hashCode = String.valueOf(value).hashCode();
-        String index = String.valueOf(hashCode);
-
-        if (!data.containsKey(index)) {
-            indexes.add(index);
-        }
-
-        data.put(index, value);
-    }
-
-
-    /**
-     * Adds a value with a specified index.
-     * <p>
-     * If index is already present in the column, associated value is updated.
-     *
-     * @param value - value to be added
-     * @param index - associated index to the value
-     */
-    public void add(T value, String index) {
-        if (!data.containsKey(index)) {
-            indexes.add(index);
-        }
-
-        data.put(index, value);
-    }
-
-    /**
-     * Returns a value at a specific index. Returns null if no index found.
-     *
-     * @param index - cell's index
-     * @return cell's value
-     */
-    public T get(String index) {
-        if (data.containsKey(index)) {
-            return data.get(index);
-        } else {
-            return null;
-        }
-    }
-
+    int getSize();
 
     /**
      * Removes the cell corresponding to the index. If such an index does
@@ -111,42 +36,10 @@ public abstract class DataCol<T> {
      * @param index - index of the cell to be removed
      * @return cell removal status
      */
-    public boolean remove(String index) {
-        if (data.containsKey(index)) {
-            data.put(index, null);
-            return true;
-        }
-
-        return false;
-    }
+    boolean remove(String index);
 
     /**
      * Prints the items of the column.
      */
-    public void show() {
-        System.out.println(this);
-    }
-
-    @Override
-    public String toString() {
-        if (indexes.size() == 0) {
-            return "Empty column";
-        }
-
-        StringBuilder buffer = new StringBuilder();
-
-        for (int i = 0; i < indexes.size(); i++) {
-            String value = "NaN";
-
-            if (data.containsKey(indexes.get(i))) {
-                T temp = data.get(indexes.get(i));
-                value = temp != null ? String.valueOf(temp) : "NaN";
-            }
-
-            buffer.append(String.format("%s%s", value, (i != indexes.size() - 1 ? " " : "")));
-        }
-
-        return buffer.toString();
-    }
-
+    void show();
 }

@@ -12,10 +12,9 @@ public class DataFrame {
     HashMap<String, DataCol> table;
 
     public DataFrame() {
-        this.labels = new ArrayList<String>();
-        this.table = new HashMap<String, DataCol>();
-        this.indexes = new ArrayList<String>();
-
+        this.labels = new ArrayList<>();
+        this.table = new HashMap<>();
+        this.indexes = new ArrayList<>();
     }
 
     public boolean addCol(String label, DataCol dl) {
@@ -46,22 +45,16 @@ public class DataFrame {
         return false;
     }
 
-    public DataCol getColsCount(String label) {
-        //Todo
-        return null;
-    }
-
     public int getColsCount() {
         return table.size();
     }
 
     public ArrayList<String> getIndexes() {
-        //Todo
-        return null;
+        return new ArrayList<>(indexes);
     }
 
     public ArrayList<String> getLabels() {
-        return new ArrayList<String>(labels);
+        return new ArrayList<>(labels);
     }
 
     public void show() {

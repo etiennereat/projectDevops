@@ -3,7 +3,7 @@ package com.panda.datacol;
 /**
  * DataColumn of Integers.
  */
-public class StringDataCol extends DataCol<String> {
+public class StringDataCol extends AbstractDataCol<String> {
 
     /**
      * Default constructor. Initializes data structures and sets the
