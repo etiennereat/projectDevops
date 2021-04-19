@@ -1,8 +1,9 @@
 package com.panda.dataframe;
 
+import com.panda.datacol.DataCol;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class DataFrame {
 
@@ -11,24 +12,24 @@ public class DataFrame {
     HashMap<String, DataCol> table;
 
     public DataFrame() {
-        this.labels = new ArrayList<String>();
-        this.table = new HashMap<String, DataCol>();
-        this.indexes = new ArrayList<String>();
+        this.labels = new ArrayList<>();
+        this.table = new HashMap<>();
+        this.indexes = new ArrayList<>();
 
     }
 
-    public boolean addCol(String label, DataCol dl) {
+    public boolean addCol(String label, DataCol column) {
         if (!table.containsKey(label)) {
             this.labels.add(label);
-            this.table.put(label, dl);
-            updateIndexes(dl.getIndexes());
+            this.table.put(label, column);
+            updateIndexes(column.getIndexes());
             return true;
         }
         return false;
     }
 
-    public boolean addCol(DataCol dl) {
-        return addCol(Integer.toString(dl.hashCode()), dl);
+    public boolean addCol(DataCol column) {
+        return addCol(Integer.toString(column.hashCode()), column);
     }
 
     private void updateIndexes(ArrayList<String> indexes) {
@@ -50,8 +51,8 @@ public class DataFrame {
 
     public boolean removeRow(String index) {
         if (indexes.contains(index)) {
-            for (Map.Entry<String, DataCol> entre : table.entrySet()) {
-                entre.getValue().remove(index);
+            for (String key : table.keySet()) {
+                table.get(key).remove(index);
             }
             indexes.remove(index);
             return true;
@@ -64,23 +65,26 @@ public class DataFrame {
     }
 
     public ArrayList<String> getIndexes() {
-        return (ArrayList<String>) indexes.clone();
+        return new ArrayList<>(indexes);
     }
 
     public ArrayList<String> getLabels() {
-        return (ArrayList<String>) labels.clone();
+        return new ArrayList<>(labels);
     }
 
+    /**
+     * @todo
+     */
     public void show() {
-        for (Map.Entry<String, DataCol> entre : table.entrySet()) {
-            entre.getValue().show();
-        }
+        System.out.println("Table");
     }
 
+    /**
+     * @todo
+     * @param index
+     */
     public void show(String index) {
-        for (Map.Entry<String, DataCol> entre : table.entrySet()) {
-            entre.getValue().show(index);
-        }
+        System.out.printf("Table's '%s' row\n", index);
     }
 
 }

@@ -1,39 +1,44 @@
 package com.panda.dataframe;
 
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class DataFrameTest {
 
     DataFrame myDataFrame;
 
-    @Before
-    public void initDataFrame(){
+    @BeforeEach
+    public void initDataFrame() {
         myDataFrame = new DataFrame();
     }
 
     @Test
-    public void countEmptyTest(){
-        assertEquals("CountEmptyTest avec une DataFrame vide :",0,myDataFrame.getColsCount());
+    @DisplayName("CountEmptyTest avec une DataFrame vide")
+    public void countEmptyTest() {
+        Assertions.assertEquals(0, myDataFrame.getColsCount());
     }
+
     @Test
-    public void countNotEmptyTest(){
+    @DisplayName("...")
+    public void countNotEmptyTest() {
         //Todo add col to dataframe with labels "test"
         //assertEquals("countNotEmptyTest avec une DataFrame de taille 1 :",1,myDataFrame.getColsCount());
     }
 
     @Test
-    public void getLabelsEmptyTest(){
-        ArrayList<String> goal = new ArrayList<String>();
-        assertEquals("getLabelsEmptyTest avec une DataFrame vide :",goal,myDataFrame.getLabels());
+    @DisplayName("getLabelsEmptyTest avec une DataFrame vide")
+    public void getLabelsEmptyTest() {
+        Assertions.assertEquals(new ArrayList<>(), myDataFrame.getLabels());
     }
+
     @Test
-    public void getLabelsNotEmptyTest(){
+    @DisplayName("...")
+    public void getLabelsNotEmptyTest() {
         //Todo add col to dataframe with labels "test"
         ArrayList<String> goal = new ArrayList<String>();
         goal.add("test");
@@ -41,48 +46,59 @@ public class DataFrameTest {
     }
 
     @Test
-    public void removeColSuccesTest(){
+    @DisplayName("...")
+    public void removeColSuccesTest() {
         //Todo add col to dataframe with labels "test"
+
         //assertTrue("removeColSuccesTest avec une DataFrame de taille 1 :",myDataFrame.removeCol("test"));
 
     }
+
     @Test
-    public void removeColFailTest(){
+    @DisplayName("...")
+    public void removeColFailTest() {
         //Todo add col to dataframe with labels "test"
-        assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeCol("fake"));
+
+        // assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeCol("fake"));
     }
 
     @Test
-    public void removeColFailEmptyTest(){
-        assertFalse("removeColFailEmptyTest avec une DataFrame vide :",myDataFrame.removeCol("fake"));
+    @DisplayName("removeColFailEmptyTest avec une DataFrame vide")
+    public void removeColFailEmptyTest() {
+        Assertions.assertFalse(myDataFrame.removeCol("fake"));
     }
 
     @Test
-    public void removeRowSuccesTest(){
-        //Todo add col to dataframe with labels "test" et un index "check"
-        //assertTrue("removeColSuccesTest avec une DataFrame de taille 1 :",myDataFrame.removeRow("check"));
+    @DisplayName("...")
+    public void removeRowSuccessTest() {
+        // Todo add col to dataframe with labels "test" et un index "check"
+        // assertTrue("removeColSuccesTest avec une DataFrame de taille 1 :",myDataFrame.removeRow("check"));
 
-    }
-    @Test
-    public void removeRowFailTest(){
-        //Todo add col to dataframe with labels "test" et un index "check"
-        assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeRow("fake"));
     }
 
     @Test
-    public void removeRowFailEmptyTest(){
-        assertFalse("removeColFailEmptyTest avec une DataFrame vide :",myDataFrame.removeCol("fake"));
+    @DisplayName("...")
+    public void removeRowFailTest() {
+        // Todo add col to dataframe with labels "test" et un index "check"
+        // assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeRow("fake"));
+    }
+
+    @Test
+    @DisplayName("...")
+    public void removeRowFailEmptyTest() {
+//        assertFalse("removeColFailEmptyTest avec une DataFrame vide :", myDataFrame.removeCol("fake"));
     }
 
 
+    @Test
+    @DisplayName("getIndexesEmptyTest avec une DataFrame vide")
+    public void getIndexesEmptyTest() {
+        Assertions.assertEquals(new ArrayList<>(), myDataFrame.getIndexes());
+    }
 
     @Test
-    public void getIndexesEmptyTest(){
-        ArrayList<String> goal = new ArrayList<String>();
-        assertEquals("getIndexesEmptyTest avec une DataFrame vide :",goal,myDataFrame.getIndexes());
-    }
-    @Test
-    public void getIndexesSize1Test(){
+    @DisplayName("...")
+    public void getIndexesSize1Test() {
         //Todo add col to dataframe with labels "test" et ses indexes "1","2","3"
         ArrayList<String> goal = new ArrayList<String>();
         goal.add("1");
@@ -91,8 +107,10 @@ public class DataFrameTest {
 
         //assertEquals("getIndexesNotEmptyTest avec une DataFrame de taille 1 :",goal,myDataFrame.getIndexes());
     }
+
     @Test
-    public void getIndexesSize2Test(){
+    @DisplayName("...")
+    public void getIndexesSize2Test() {
         //Todo add col to dataframe with labels "test" et ses indexes "1","2","3"
         //Todo add col to dataframe with labels "test2" et ses indexes "3","4"
         ArrayList<String> goal = new ArrayList<String>();
