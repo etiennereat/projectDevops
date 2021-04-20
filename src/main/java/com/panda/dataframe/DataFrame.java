@@ -5,6 +5,15 @@ import com.panda.datacol.DataCol;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Core data structure, grouping DataCols.
+ * <p>
+ * Supports basic operations over rows and columns.
+ *
+ * @todo several more complex constructors
+ * @todo show, head, tail methods
+ * @todo other interesting features to come...
+ */
 public class DataFrame {
 
     protected ArrayList<String> labels;
@@ -17,6 +26,13 @@ public class DataFrame {
         this.indexes = new ArrayList<>();
     }
 
+    /**
+     * Adds a column if label is not already taken.
+     *
+     * @param label  - new column's name
+     * @param column - column's data
+     * @return status of add; true - column added; false - otherwise.
+     */
     public boolean addCol(String label, DataCol column) {
         if (!table.containsKey(label)) {
             this.labels.add(label);
@@ -27,6 +43,12 @@ public class DataFrame {
         return false;
     }
 
+    /**
+     * Adds a column with a automatically generated label.
+     *
+     * @param column - column's data
+     * @return status of add; true - column added; false - otherwise.
+     */
     public boolean addCol(DataCol column) {
         return addCol(Integer.toString(column.hashCode()), column);
     }
@@ -53,6 +75,12 @@ public class DataFrame {
         }
     }
 
+    /**
+     * Removes column under provided label. Both label and data is removed.
+     *
+     * @param label - label of the column to be removed.
+     * @return status of removal.
+     */
     public boolean removeCol(String label) {
         if (labels.contains(label)) {
             labels.remove(label);
@@ -62,6 +90,13 @@ public class DataFrame {
         return false;
     }
 
+    /**
+     * Removes a row from all DataCols of the DataFrame. Both indexes and
+     * associated data are removed.
+     *
+     * @param index - index of the row to be removed.
+     * @return status of removal.
+     */
     public boolean removeRow(String index) {
         if (indexes.contains(index)) {
             for (String label : table.keySet()) {
@@ -73,14 +108,29 @@ public class DataFrame {
         return false;
     }
 
+    /**
+     * Get the number of columns.
+     *
+     * @return column's count
+     */
     public int getColsCount() {
         return table.size();
     }
 
+    /**
+     * Get the indexes of the DataFrame.
+     *
+     * @return array of indexes
+     */
     public ArrayList<String> getIndexes() {
         return new ArrayList<>(indexes);
     }
 
+    /**
+     * Get the labels of DataFrame's columns.
+     *
+     * @return array of labels
+     */
     public ArrayList<String> getLabels() {
         return new ArrayList<>(labels);
     }
