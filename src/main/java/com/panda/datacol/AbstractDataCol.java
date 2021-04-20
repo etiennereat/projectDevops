@@ -121,6 +121,39 @@ public abstract class AbstractDataCol<T> implements DataCol {
     }
 
     /**
+     * Removes the index and associated data. If such an index does
+     * not exist, returns false. On successful removal - returns true.
+     *
+     * @param index - index to be removed
+     * @return index removal status
+     */
+    public boolean removeIndex(String index) {
+        if (indexes.contains(index)) {
+            indexes.remove(index);
+            data.remove(index);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Update indexes. All data that is associated to other
+     * indexes than those in the input array is removed.
+     *
+     * @param indexes - new indexes
+     */
+    public void updateIndexes(ArrayList<String> indexes) {
+        this.indexes = new ArrayList<>(indexes);
+
+        // remove obsolete data
+        for (String key : data.keySet()) {
+            if (!this.indexes.contains(key)) {
+                data.remove(key);
+            }
+        }
+    }
+
+    /**
      * Prints the items of the column.
      */
     public void show() {

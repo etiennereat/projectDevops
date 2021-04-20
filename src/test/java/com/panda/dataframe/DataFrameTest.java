@@ -15,27 +15,17 @@ import java.util.HashMap;
 
 public class DataFrameTest {
 
-    DataFrame myDataFrame;
+    DataFrame df;
 
     @BeforeEach
     public void initDataFrame() {
-        myDataFrame = new DataFrame();
+        df = new DataFrame();
     }
 
-//    public boolean removeCol(String label);
-//    public DataCol col(String label);
-
-//    public ArrayList<String> getIndexes();
-//    private void updateIndexes(ArrayList<String> indexes);
-//    public boolean removeRow(String index);
-
-//    public void show();
-//    public void show(String index);
 
     @Test
     @DisplayName("Test DataFrame(), initial state")
     public void testConstructor() {
-        DataFrame df = new DataFrame();
         Assertions.assertEquals(0, df.indexes.size());
         Assertions.assertEquals(0, df.labels.size());
         Assertions.assertEquals(0, df.table.size());
@@ -45,7 +35,6 @@ public class DataFrameTest {
     @DisplayName("Test addCol(String l, DataCol col)")
     public void testAddColDataAndLabel() {
         DataCol dc = new IntegerDataCol(new int[]{1, 2, 3});
-        DataFrame df = new DataFrame();
 
         df.addCol("integers", dc);
         Assertions.assertEquals(1, df.table.size());
@@ -63,7 +52,6 @@ public class DataFrameTest {
     @DisplayName("Test addCol(DataCol col)")
     public void testAddCol() {
         DataCol dc = new DoubleDataCol(new double[]{1.0, 2.0, 3.0});
-        DataFrame df = new DataFrame();
 
         df.addCol(dc);
         Assertions.assertEquals(1, df.getColsCount());
@@ -82,7 +70,6 @@ public class DataFrameTest {
     @DisplayName("Test addCol(String l, DataCol col), existing col")
     public void testAddColOnExistingLabel() {
         DataCol dc = new DoubleDataCol(new double[]{1.0, 2.0, 3.0});
-        DataFrame df = new DataFrame();
 
         df.addCol("col", dc);
         Assertions.assertSame(dc, df.table.get("col"));
@@ -98,7 +85,6 @@ public class DataFrameTest {
     @DisplayName("Test getColsCount()")
     public void testGetColsCount() {
         DataCol dc = new DoubleDataCol(new double[]{1.0, 2.0, 3.0});
-        DataFrame df = new DataFrame();
 
         df.table = new HashMap<>();
         df.table.put("key1", dc);
@@ -108,14 +94,12 @@ public class DataFrameTest {
     @Test
     @DisplayName("Test getColsCount(), empty df")
     public void testGetColsCountOnEmpty() {
-        DataFrame df = new DataFrame();
         Assertions.assertEquals(0, df.getColsCount());
     }
 
     @Test
     @DisplayName("Test getLabels(), empty df")
-    public void tetGetLabelsOnEmpty() {
-        DataFrame df = new DataFrame();
+    public void testGetLabelsOnEmpty() {
         Assertions.assertEquals(new ArrayList<>(), df.getLabels());
     }
 
@@ -126,7 +110,6 @@ public class DataFrameTest {
         DataCol integerCol = new IntegerDataCol(new int[]{1, 2, 3});
         DataCol stringCol = new StringDataCol(new String[]{"a", "b", "c"});
 
-        DataFrame df = new DataFrame();
         ArrayList<String> goal = new ArrayList<>(Arrays.asList("doube", "integer", "string"));
 
         df.addCol(goal.get(0), doubleCol);
@@ -137,81 +120,158 @@ public class DataFrameTest {
     }
 
     @Test
-    @DisplayName("...")
-    public void removeColSuccesTest() {
-        //Todo add col to dataframe with labels "test"
+    @DisplayName("Test df.removeCol(String l), success")
+    public void testRemoveCol() {
+        String[] labels = new String[]{"one", "two", "three"};
+        DataCol[] cols = new DataCol[]{new IntegerDataCol(), new DoubleDataCol(), new StringDataCol()};
 
-        //assertTrue("removeColSuccesTest avec une DataFrame de taille 1 :",myDataFrame.removeCol("test"));
+        for (int i = 0; i < labels.length; i++) {
+            df.table.put(labels[i], cols[i]);
+            df.labels.add(labels[i]);
+        }
 
+        for (int i = 0; i < labels.length; i++) {
+            boolean res = df.removeCol(labels[i]);
+            Assertions.assertTrue(res);
+        }
+
+        Assertions.assertSame(0, df.labels.size());
+        Assertions.assertSame(0, df.table.size());
     }
 
     @Test
-    @DisplayName("...")
-    public void removeColFailTest() {
-        //Todo add col to dataframe with labels "test"
+    @DisplayName("Test removeCol(String l), non existing col")
+    public void testRemoveColNonExisting() {
+        String[] labels = new String[]{"one", "two", "three"};
+        DataCol[] cols = new DataCol[]{new IntegerDataCol(), new DoubleDataCol(), new StringDataCol()};
 
-        // assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeCol("fake"));
+        for (int i = 0; i < labels.length; i++) {
+            df.table.put(labels[i], cols[i]);
+            df.labels.add(labels[i]);
+        }
+
+        boolean res = df.removeCol("non existing");
+        Assertions.assertFalse(res);
+
+        Assertions.assertSame(3, df.labels.size());
+        Assertions.assertSame(3, df.table.size());
     }
 
     @Test
-    @DisplayName("removeColFailEmptyTest avec une DataFrame vide")
-    public void removeColFailEmptyTest() {
-        Assertions.assertFalse(myDataFrame.removeCol("fake"));
+    @DisplayName("Test removeCol(String l), empty df")
+    public void testRemoveColOnEmpty() {
+        boolean res = df.removeCol("non existing");
+        Assertions.assertFalse(res);
     }
 
     @Test
-    @DisplayName("...")
-    public void removeRowSuccessTest() {
-        // Todo add col to dataframe with labels "test" et un index "check"
-        // assertTrue("removeColSuccesTest avec une DataFrame de taille 1 :",myDataFrame.removeRow("check"));
-
+    @DisplayName("Test col(String l), empty df")
+    public void testColOnEmpty() {
+        DataCol res = df.col("non existing");
+        Assertions.assertNull(res);
     }
 
     @Test
-    @DisplayName("...")
+    @DisplayName("Test col(String l), non existing")
+    public void testColNotExisting() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+
+        DataCol res = df.col("non existing");
+        Assertions.assertNull(res);
+    }
+
+    @Test
+    @DisplayName("Test col(String l), success")
+    public void testCol() {
+        DataCol doubles = new DoubleDataCol();
+        DataCol integers = new IntegerDataCol();
+
+        df.table.put("doubles", doubles);
+        df.table.put("integers", integers);
+        df.labels.addAll(Arrays.asList("doubles", "integers"));
+
+        DataCol res = df.col("doubles");
+        Assertions.assertSame(doubles, res);
+        res = df.col("integers");
+        Assertions.assertSame(integers, res);
+    }
+
+    @Test
+    @DisplayName("Test removeRow(String i), success")
+    public void testRemoveRow() {
+        String[] indexes = new String[]{"1", "2"};
+        DataCol doubles = new DoubleDataCol(new double[]{1.0, 2.0}, indexes);
+        DataCol integers = new IntegerDataCol(new int[]{1, 2}, indexes);
+
+        df.addCol("doubles", doubles);
+        df.addCol(integers);
+
+        boolean res = df.removeRow(indexes[0]);
+
+        Assertions.assertTrue(res);
+        // there should be only one index/element left
+        Assertions.assertEquals(1, df.col("doubles").getSize());
+    }
+
+    @Test
+    @DisplayName("Test removeRow(String i), non existing index")
     public void removeRowFailTest() {
-        // Todo add col to dataframe with labels "test" et un index "check"
-        // assertFalse("removeColFail1Test avec une DataFrame de taille 1 :",myDataFrame.removeRow("fake"));
+        String[] indexes = new String[]{"1", "2"};
+        DataCol doubles = new DoubleDataCol(new double[]{1.0, 2.0}, indexes);
+        DataCol integers = new IntegerDataCol(new int[]{1, 2}, indexes);
+
+        df.addCol("doubles", doubles);
+        df.addCol(integers);
+
+        boolean res = df.removeRow("non existing");
+
+        Assertions.assertFalse(res);
+        // there should be no changes in the number of indexes, or their order
+        Assertions.assertEquals(2, df.col("doubles").getSize());
+        Assertions.assertEquals(new ArrayList<>(Arrays.asList(indexes)), df.getIndexes());
     }
 
     @Test
-    @DisplayName("...")
-    public void removeRowFailEmptyTest() {
-//        assertFalse("removeColFailEmptyTest avec une DataFrame vide :", myDataFrame.removeCol("fake"));
+    @DisplayName("Test removeRow(String i), on empty df")
+    public void testRemoveRowOnEmpty() {
+        boolean res = df.removeRow("non existing");
+        Assertions.assertFalse(res);
     }
 
 
     @Test
-    @DisplayName("getIndexesEmptyTest avec une DataFrame vide")
-    public void getIndexesEmptyTest() {
-        Assertions.assertEquals(new ArrayList<>(), myDataFrame.getIndexes());
+    @DisplayName("Test getIndexes(String i), on empty df")
+    public void testGetIndexesOnEmpty() {
+        Assertions.assertEquals(new ArrayList<>(), df.getIndexes());
     }
 
     @Test
-    @DisplayName("...")
-    public void getIndexesSize1Test() {
-        //Todo add col to dataframe with labels "test" et ses indexes "1","2","3"
-        ArrayList<String> goal = new ArrayList<String>();
-        goal.add("1");
-        goal.add("2");
-        goal.add("3");
+    @DisplayName("Test getIndexes(String i)")
+    public void testGetIndexes() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        double[] data = new double[]{1.0, 2.0, 3.0};
 
-        //assertEquals("getIndexesNotEmptyTest avec une DataFrame de taille 1 :",goal,myDataFrame.getIndexes());
+        df.addCol("col", new DoubleDataCol(data, indexes));
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList(indexes));
+        Assertions.assertEquals(goal, df.getIndexes());
     }
 
     @Test
-    @DisplayName("...")
-    public void getIndexesSize2Test() {
-        //Todo add col to dataframe with labels "test" et ses indexes "1","2","3"
-        //Todo add col to dataframe with labels "test2" et ses indexes "3","4"
-        ArrayList<String> goal = new ArrayList<String>();
-        goal.add("1");
-        goal.add("2");
-        goal.add("3");
-        goal.add("4");
+    @DisplayName("Test addNewIndexes()")
+    public void testAddNewIndexes() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        ArrayList<String> newAddedIndexes = new ArrayList<>(Arrays.asList("a", "c", "d"));
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("a", "b", "c", "d"));
+        double[] data = new double[]{1.0, 2.0, 3.0};
 
-        //assertEquals("getIndexesNotEmptyTest avec une DataFrame de taille 2 :",goal,myDataFrame.getLabels());
+        df.addCol("col", new DoubleDataCol(data, indexes));
+        df.addNewIndexes(newAddedIndexes);
+
+        // a,b,c - old indexes; a,c,d are inserted; only d is new;
+        // expected a,b,c,d
+        Assertions.assertEquals(goal, df.getIndexes());
     }
 
-    //Todo test for addCol
 }

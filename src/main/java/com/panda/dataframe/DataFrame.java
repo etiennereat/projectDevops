@@ -21,7 +21,7 @@ public class DataFrame {
         if (!table.containsKey(label)) {
             this.labels.add(label);
             this.table.put(label, column);
-            updateIndexes(column.getIndexes());
+            addNewIndexes(column.getIndexes());
             return true;
         }
         return false;
@@ -32,14 +32,24 @@ public class DataFrame {
     }
 
     /**
-     * @param indexes
-     * @todo update indexes / data in all columns
+     * For all indexes in the argument, if it's a new index - adds it to the object's
+     * indexes attribute. Update indexes in all the columns.
+     *
+     * @param indexes - list of indexes to be added if not already present
      */
-    private void updateIndexes(ArrayList<String> indexes) {
+    protected void addNewIndexes(ArrayList<String> indexes) {
+        ArrayList<String> newIndexes = new ArrayList<>();
+
         for (String index : indexes) {
             if (!this.indexes.contains(index)) {
-                this.indexes.add(index);
+                newIndexes.add(index);
             }
+        }
+
+        this.indexes.addAll(newIndexes);
+
+        for (String label : labels) {
+            table.get(label).updateIndexes(this.indexes);
         }
     }
 
@@ -54,8 +64,8 @@ public class DataFrame {
 
     public boolean removeRow(String index) {
         if (indexes.contains(index)) {
-            for (String key : table.keySet()) {
-                table.get(key).remove(index);
+            for (String label : table.keySet()) {
+                table.get(label).removeIndex(index);
             }
             indexes.remove(index);
             return true;
