@@ -214,4 +214,5 @@ public class BooleanDataColTest {
         BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
 }
