@@ -61,44 +61,4 @@ public class DataFrame {
     public ArrayList<String> getLabels() {
         return new ArrayList<>(labels);
     }
-
-
-    public void show() {
-        for(String label : getLabels()){
-            System.out.print(label + " ");
-        }
-        System.out.println();
-        for(String index : getIndexes()){
-            show(index);
-        }
-    }
-
-
-    public void show(String index) {
-        System.out.print(index + " : " + format(index) + "\n");
-    }
-
-    private String format(String index){
-        String line = "";
-        for(String label : labels){
-            switch (table.get(label).getType()){
-                case STRING :
-                    line = line + String.valueOf(((StringDataCol)(table.get(label))).get(index)) + " ";
-                    break;
-                case DOUBLE :
-                    line = line + String.valueOf(((DoubleDataCol)(table.get(label))).get(index)) + " ";
-                    break;
-                case INTEGER :
-                    line = line + String.valueOf(((IntegerDataCol)(table.get(label))).get(index)) + " ";
-                    break;
-                case BOOLEAN :
-                    line = line + String.valueOf(((BooleanDataCol)(table.get(label))).get(index)) + " ";
-                    break;
-                default :
-                    break;
-            }
-        }
-        return line;
-    }
-
 }
