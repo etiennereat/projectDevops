@@ -1,5 +1,7 @@
 package com.panda.datacol;
 
+import java.util.ArrayList;
+
 /**
  * DataColumn of Integers.
  */
@@ -48,5 +50,39 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         for (int i = 0; i < elementsCount; i++) {
             add(values[i], indexes[i]);
         }
+    }
+
+    /**
+     * Returns a new DataCol composed of the rows between the
+     * specified from and to indexes inclusive.
+     * <p>
+     * If one of the two indexes does not exist - returns empty DC. If from is
+     * placed below the index to - returns empty DC. Otherwise, return the
+     * DataCol containing the required selection of rows.
+     *
+     * @param from - starting index
+     * @param to   - ending index
+     * @return the new DataCol
+     */
+    @Override
+    public DataCol selectRows(String from, String to) {
+        DoubleDataCol newDataCol = new DoubleDataCol();
+        selectRowsInto(from, to, newDataCol);
+        return newDataCol;
+    }
+
+    /**
+     * Returns a new DataCol composed of the rows associated to
+     * the specified indexes. If indexes are not valid or null, returns
+     * an empty DC.
+     *
+     * @param indexes - list of indexes
+     * @return the new DataCol
+     */
+    @Override
+    public DataCol selectRows(ArrayList<String> indexes) {
+        DoubleDataCol newDataCol = new DoubleDataCol();
+        selectRowsInto(indexes, newDataCol);
+        return newDataCol;
     }
 }

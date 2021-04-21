@@ -145,6 +145,115 @@ public class DataFrame {
         return table.get(label);
     }
 
+
+    /**
+     * Returns a new DataFrame composed of the columns between the
+     * specified from and to labels inclusive.
+     * <p>
+     * If anyone of the two labels does not exist - returns empty DF. If from is placed
+     * at right of column with label to - returns empty DF. Otherwise, returns the
+     * DataFrame containing the required selection of columns.
+     *
+     * @param from - starting label
+     * @param to   - ending label
+     * @return the new DataFrame
+     */
+    public DataFrame selectCols(String from, String to) {
+        int indexOfFrom = labels.indexOf(from);
+        int indexOfTo = labels.indexOf(to);
+
+        DataFrame newDataFrame = new DataFrame();
+
+        if (indexOfFrom < 0 || indexOfTo < 0 || indexOfTo < indexOfFrom) {
+            return newDataFrame;
+        }
+
+        for (int i = indexOfFrom; i <= indexOfTo; i++) {
+            newDataFrame.addCol(labels.get(i), table.get(labels.get(i)));
+        }
+
+        return newDataFrame;
+    }
+
+
+    /**
+     * Returns a new DataFrame composed of the columns associated to
+     * the specified labels. Returns an empty DF for non-existent, null
+     * labels.
+     *
+     * @param labels - list of labels
+     * @return the new DataFrame
+     */
+    public DataFrame selectCols(ArrayList<String> labels) {
+        DataFrame newDataFrame = new DataFrame();
+
+        if (labels == null || labels.size() == 0) {
+            return newDataFrame;
+        }
+
+        for (String label : labels) {
+            if (table.containsKey(label)) {
+                newDataFrame.addCol(label, table.get(label));
+            }
+        }
+
+        return newDataFrame;
+    }
+
+    /**
+     * Returns a new DataFrame composed from the rows between the
+     * specified from and to indexes inclusive.
+     * <p>
+     * If one of the two indexes does not exist - returns empty DF. If from is placed
+     * below the index to - returns empty DF. Otherwise, return the
+     * DataFrame containing the required selection of rows.
+     *
+     * @param from - starting index
+     * @param to   - ending index
+     * @return the new DataFrame
+     */
+    public DataFrame selectRows(String from, String to) {
+        DataFrame newDataFrame = new DataFrame();
+
+        int indexOfFrom = indexes.indexOf(from);
+        int indexOfTo = indexes.indexOf(to);
+
+        if (indexOfFrom < 0 || indexOfFrom > indexOfTo) {
+            return newDataFrame;
+        }
+
+        for (String label : labels) {
+            newDataFrame.addCol(label, table.get(label).selectRows(from, to));
+        }
+
+        return newDataFrame;
+    }
+
+
+    /**
+     * Returns a new DataFrame composed from the rows associated to
+     * the specified indexes. If indexes' list is not valid - returns
+     * an empty DataFrame.
+     *
+     * @param indexes - list of indexes
+     * @return the new DataFrame
+     */
+    public DataFrame selectRows(ArrayList<String> indexes) {
+        DataFrame newDataFrame = new DataFrame();
+
+        if (indexes == null || indexes.size() == 0) {
+            return newDataFrame;
+        }
+
+        for (String label : labels) {
+            if (table.containsKey(label)) {
+                newDataFrame.addCol(label, table.get(label).selectRows(indexes));
+            }
+        }
+
+        return newDataFrame;
+    }
+
     /**
      * @todo
      */
