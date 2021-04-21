@@ -215,4 +215,5 @@ public class DoubleDataColTest {
         DoubleDataCol dc = new DoubleDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
 }

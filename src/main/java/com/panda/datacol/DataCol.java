@@ -42,4 +42,5 @@ public interface DataCol {
      * Prints the items of the column.
      */
     void show();
+
 }

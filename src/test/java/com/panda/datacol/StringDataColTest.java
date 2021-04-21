@@ -215,4 +215,5 @@ public class StringDataColTest {
         StringDataCol dc = new StringDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
 }
