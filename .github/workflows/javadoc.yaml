@@ -1,4 +1,4 @@
-name: PR validation
+name: Generate javadoc
 
 on:
   push:
@@ -26,6 +26,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Generate javadoc
+        continue-on-error: true
         run:
           mvn javadoc:javadoc --file pom.xml
 
