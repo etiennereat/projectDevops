@@ -3,9 +3,8 @@ name: Generate javadoc
 on:
   push:
     branches:
-#      - main
-#      - development
-      - dev/docs_generation
+      - main
+      - development
 
 jobs:
   build:
