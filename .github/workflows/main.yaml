@@ -1,4 +1,4 @@
-name: Push validation
+name: Push/PR validation
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build
-          run:
-            mvn compile --file pom.xml
+        run:
+          mvn compile --file pom.xml
 
       - name: Unit tests
         run:
