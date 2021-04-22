@@ -2,7 +2,7 @@
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/etiennereat/projectDevops/main)
 ![GitHub repo size](https://img.shields.io/github/repo-size/etiennereat/projectDevops)
-![GitHub top language (branch)](https://img.shields.io/github/languages/top/etiennereat/projectDevops/development)
+![GitHub top language](https://img.shields.io/github/languages/top/etiennereat/projectDevops)
 
 Bibliothèque d’analyse de données
 
