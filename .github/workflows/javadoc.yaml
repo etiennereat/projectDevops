@@ -1,10 +1,9 @@
-name: PR validation
+name: Generate javadoc
 
 on:
-  pull_request:
+  push:
     branches:
-      - dev/*
-      - fix/*
+      - main
       - development
 
 jobs:
@@ -25,10 +24,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Unit tests
+      - name: Generate javadoc
+        continue-on-error: true
         run:
-          mvn verify --file pom.xml
+          mvn javadoc:javadoc --file pom.xml
 
-      - name: Build
-        run:
-          mvn -B package --file pom.xml
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Generates javadoc
