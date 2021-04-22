@@ -1,9 +1,18 @@
 package com.panda.dataframe;
 
-import com.panda.datacol.DataCol;
+import com.panda.datacol.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import static com.panda.utils.CSVFileManager.openCSV;
+import static com.panda.utils.PaternMatcher.*;
+import static java.util.Arrays.copyOfRange;
+
 
 /**
  * Core data structure, grouping DataCols.
@@ -20,10 +29,20 @@ public class DataFrame {
     protected ArrayList<String> indexes;
     protected HashMap<String, DataCol> table;
 
+
+
+
     public DataFrame() {
         this.labels = new ArrayList<>();
         this.table = new HashMap<>();
         this.indexes = new ArrayList<>();
+    }
+
+    public DataFrame(String fileName) {
+        this.labels = new ArrayList<>();
+        this.table = new HashMap<>();
+        this.indexes = new ArrayList<>();
+        getDataFromFile(fileName);
     }
 
     /**
@@ -160,4 +179,111 @@ public class DataFrame {
         System.out.printf("Table's '%s' row\n", index);
     }
 
+
+    private void getDataFromFile(String path){
+
+        File fileCSV = openCSV(path);
+        HashMap<String,String[]> data = new HashMap<>();
+        ArrayList<ColType> listeType = new ArrayList<>();
+        try {
+            Scanner reader = new Scanner(fileCSV);
+            String line = reader.nextLine();
+
+            //sauvegarde des labels
+            ArrayList<String> saveLabels = new ArrayList<>();
+            for(String label : line.split(",")){
+                saveLabels.add(label);
+                listeType.add(null);
+            }
+
+            //lecture des data  et determine types:
+            while (reader.hasNextLine()) {
+                line = reader.nextLine();
+                String parser[] = line.split(",");
+                String cells[] = new String[listeType.size()];
+                for (int i = 0; i < listeType.size(); i++) {
+                    if(i>= parser.length - 1){
+                        cells[i]="Nan";
+                    }
+                    else{
+                        cells[i]=parser[i+1];
+                    }
+
+                    //try to determine the type
+                    ColType check_type = listeType.get(i);
+                    if(check_type == null){
+                        if (isInteger(cells[i])) {
+                            listeType.set(i, ColType.INTEGER);
+                        } else if (isDouble(cells[i])) {
+                            listeType.set(i, ColType.DOUBLE);
+                        } else if (isBoolean(cells[i])) {
+                            listeType.set(i, ColType.BOOLEAN);
+                        } else if (!isEmptyCase(cells[i])) {
+                            listeType.set(i, ColType.STRING);
+                        }
+                    } else switch (check_type) {
+                        case INTEGER:
+                            if (!isEmptyCase(cells[i])) {
+                                if(!isInteger(cells[i])){
+                                    if(!isDouble(cells[i])){
+                                        listeType.set(i, ColType.STRING);
+                                    }
+                                    else{
+                                        listeType.set(i, ColType.DOUBLE);
+                                    }
+                                }
+                            }
+                            break;
+                        case DOUBLE:
+                            if (!isEmptyCase(cells[i]) && !isDouble(cells[i])) {
+                                listeType.set(i, ColType.STRING);
+                            }
+                            break;
+                        case BOOLEAN:
+                            if (!isEmptyCase(cells[i]) && !isBoolean(cells[i])) {
+                                listeType.set(i, ColType.STRING);
+                            }
+                            break;
+                        case STRING:
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + check_type);
+                    }
+                }
+                data.put(parser[0], cells);
+            }
+            reader.close();
+            AbstractDataCol col;
+            for(int i =0; i<listeType.size(); i++){
+                ColType type = listeType.get(i);
+                if(type == null){
+                    listeType.set(i,ColType.STRING);
+                    type = ColType.STRING;
+                }
+                switch(type){
+                    case INTEGER:
+                        col = new IntegerDataCol();
+                        break;
+                    case DOUBLE:
+                        col = new DoubleDataCol();
+                        break;
+                    case BOOLEAN:
+                        col = new BooleanDataCol();
+                        break;
+                    case STRING:
+                        col = new StringDataCol();
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + type);
+                }
+                for(Map.Entry<String,String[]> row: data.entrySet()){
+                    col.add(row.getValue()[i], row.getKey());
+                }
+                addCol(saveLabels.get(i),col);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
