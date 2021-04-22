@@ -4,6 +4,10 @@ import java.io.File;
 
 public class CSVFileManager {
 
+    /**
+     * Open CSV file with verification
+     * @param  path path of CSV to open it
+     */
     public static File openCSV(String path) {
         File fileCSV = new File(path);
         String fileName = fileCSV.getName();

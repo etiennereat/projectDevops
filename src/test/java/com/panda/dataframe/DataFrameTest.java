@@ -271,6 +271,7 @@ public class DataFrameTest {
         // expected a,b,c,d
         Assertions.assertEquals(goal, df.getIndexes());
     }
+
     @Test
     @DisplayName("Test Constructeur with wrong file ")
     public void testConstructeurCSVwrong_file() {
@@ -281,6 +282,7 @@ public class DataFrameTest {
             }
         });
     }
+
     @Test
     @DisplayName("Test Constructeur with test_type.csv")
     public void testConstructeurCSVtest_type() {
@@ -290,16 +292,16 @@ public class DataFrameTest {
         goalLabel.add("label2");
         goalLabel.add("label3");
         goalLabel.add("label4");
-        for(String label : frame.getLabels()){
+        for (String label : frame.getLabels()) {
             Assertions.assertTrue(goalLabel.contains(label));
         }
-        for(String index : frame.getIndexes()){
+        for (String index : frame.getIndexes()) {
             Assertions.assertTrue(index.equals("index1"));
         }
-        Assertions.assertEquals(ColType.INTEGER,frame.col("label1").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label2").getType());
-        Assertions.assertEquals(ColType.BOOLEAN,frame.col("label3").getType());
-        Assertions.assertEquals(ColType.DOUBLE,frame.col("label4").getType());
+        Assertions.assertEquals(ColType.INTEGER, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label4").getType());
     }
 
     @Test
@@ -311,21 +313,22 @@ public class DataFrameTest {
         goalLabel.add("label2");
         goalLabel.add("label3");
         goalLabel.add("label4");
-        for(String label : frame.getLabels()){
+        for (String label : frame.getLabels()) {
             Assertions.assertTrue(goalLabel.contains(label));
         }
         ArrayList<String> goalIndex = new ArrayList();
         goalIndex.add("index1");
         goalIndex.add("index2");
         goalIndex.add("index3");
-        for(String index : frame.getIndexes()){
+        for (String index : frame.getIndexes()) {
             Assertions.assertTrue(goalIndex.contains(index));
         }
-        Assertions.assertEquals(ColType.DOUBLE,frame.col("label1").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label2").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label3").getType());
-        Assertions.assertEquals(ColType.DOUBLE,frame.col("label4").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label4").getType());
     }
+
     @Test
     @DisplayName("Test Constructeur with test_type_complexe2.csv")
     public void testConstructeurCSVtest_type_complexe2() {
@@ -335,19 +338,19 @@ public class DataFrameTest {
         goalLabel.add("label2");
         goalLabel.add("label3");
         goalLabel.add("label4");
-        for(String label : frame.getLabels()){
+        for (String label : frame.getLabels()) {
             Assertions.assertTrue(goalLabel.contains(label));
         }
         ArrayList<String> goalIndex = new ArrayList();
         goalIndex.add("index1");
         goalIndex.add("index2");
-        for(String index : frame.getIndexes()){
+        for (String index : frame.getIndexes()) {
             Assertions.assertTrue(goalIndex.contains(index));
         }
-        Assertions.assertEquals(ColType.INTEGER,frame.col("label1").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label2").getType());
-        Assertions.assertEquals(ColType.BOOLEAN,frame.col("label3").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label4").getType());
+        Assertions.assertEquals(ColType.INTEGER, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label4").getType());
     }
 
     @Test
@@ -359,20 +362,20 @@ public class DataFrameTest {
         goalLabel.add("label2");
         goalLabel.add("label3");
         goalLabel.add("label4");
-        for(String label : frame.getLabels()){
+        for (String label : frame.getLabels()) {
             Assertions.assertTrue(goalLabel.contains(label));
         }
         ArrayList<String> goalIndex = new ArrayList();
         goalIndex.add("index1");
         goalIndex.add("index2");
         goalIndex.add("index3");
-        for(String index : frame.getIndexes()){
+        for (String index : frame.getIndexes()) {
             Assertions.assertTrue(goalIndex.contains(index));
         }
-        Assertions.assertEquals(ColType.DOUBLE,frame.col("label1").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label2").getType());
-        Assertions.assertEquals(ColType.BOOLEAN,frame.col("label3").getType());
-        Assertions.assertEquals(ColType.STRING,frame.col("label4").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label4").getType());
 
     }
 

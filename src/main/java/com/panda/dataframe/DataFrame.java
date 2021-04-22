@@ -30,12 +30,29 @@ public class DataFrame {
     protected HashMap<String, DataCol> table;
 
 
-
-
     public DataFrame() {
         this.labels = new ArrayList<>();
         this.table = new HashMap<>();
         this.indexes = new ArrayList<>();
+    }
+
+    public DataFrame(ArrayList<String> labels, ArrayList<DataCol> cols) {
+        assert (labels.size() == cols.size());
+        this.labels = new ArrayList<>();
+        this.table = new HashMap<>();
+        this.indexes = new ArrayList<>();
+        for (int i = 0; i < labels.size(); i++) {
+            addCol(labels.get(i), cols.get(i));
+        }
+    }
+
+    public DataFrame(DataFrame otherframe) {
+        this.labels = new ArrayList<>();
+        this.table = new HashMap<>();
+        this.indexes = new ArrayList<>();
+        for (String label : otherframe.getLabels()) {
+            addCol(label, otherframe.col(label));
+        }
     }
 
     public DataFrame(String fileName) {
@@ -44,6 +61,7 @@ public class DataFrame {
         this.indexes = new ArrayList<>();
         getDataFromFile(fileName);
     }
+
 
     /**
      * Adds a column if label is not already taken.
@@ -179,11 +197,15 @@ public class DataFrame {
         System.out.printf("Table's '%s' row\n", index);
     }
 
-
-    private void getDataFromFile(String path){
+    /**
+     * Load data from CSV file
+     *
+     * @param path path of CSV file to build data frame
+     */
+    private void getDataFromFile(String path) {
 
         File fileCSV = openCSV(path);
-        HashMap<String,String[]> data = new HashMap<>();
+        HashMap<String, String[]> data = new HashMap<>();
         ArrayList<ColType> listeType = new ArrayList<>();
         try {
             Scanner reader = new Scanner(fileCSV);
@@ -191,7 +213,7 @@ public class DataFrame {
 
             //sauvegarde des labels
             ArrayList<String> saveLabels = new ArrayList<>();
-            for(String label : line.split(",")){
+            for (String label : line.split(",")) {
                 saveLabels.add(label);
                 listeType.add(null);
             }
@@ -202,16 +224,15 @@ public class DataFrame {
                 String parser[] = line.split(",");
                 String cells[] = new String[listeType.size()];
                 for (int i = 0; i < listeType.size(); i++) {
-                    if(i>= parser.length - 1){
-                        cells[i]="Nan";
-                    }
-                    else{
-                        cells[i]=parser[i+1];
+                    if (i >= parser.length - 1) {
+                        cells[i] = "Nan";
+                    } else {
+                        cells[i] = parser[i + 1];
                     }
 
                     //try to determine the type
                     ColType check_type = listeType.get(i);
-                    if(check_type == null){
+                    if (check_type == null) {
                         if (isInteger(cells[i])) {
                             listeType.set(i, ColType.INTEGER);
                         } else if (isDouble(cells[i])) {
@@ -224,11 +245,10 @@ public class DataFrame {
                     } else switch (check_type) {
                         case INTEGER:
                             if (!isEmptyCase(cells[i])) {
-                                if(!isInteger(cells[i])){
-                                    if(!isDouble(cells[i])){
+                                if (!isInteger(cells[i])) {
+                                    if (!isDouble(cells[i])) {
                                         listeType.set(i, ColType.STRING);
-                                    }
-                                    else{
+                                    } else {
                                         listeType.set(i, ColType.DOUBLE);
                                     }
                                 }
@@ -254,13 +274,13 @@ public class DataFrame {
             }
             reader.close();
             AbstractDataCol col;
-            for(int i =0; i<listeType.size(); i++){
+            for (int i = 0; i < listeType.size(); i++) {
                 ColType type = listeType.get(i);
-                if(type == null){
-                    listeType.set(i,ColType.STRING);
+                if (type == null) {
+                    listeType.set(i, ColType.STRING);
                     type = ColType.STRING;
                 }
-                switch(type){
+                switch (type) {
                     case INTEGER:
                         col = new IntegerDataCol();
                         break;
@@ -276,10 +296,10 @@ public class DataFrame {
                     default:
                         throw new IllegalStateException("Unexpected value: " + type);
                 }
-                for(Map.Entry<String,String[]> row: data.entrySet()){
+                for (Map.Entry<String, String[]> row : data.entrySet()) {
                     col.add(row.getValue()[i], row.getKey());
                 }
-                addCol(saveLabels.get(i),col);
+                addCol(saveLabels.get(i), col);
             }
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
