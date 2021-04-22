@@ -1,0 +1,27 @@
+name: Generate javadoc
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  javadoc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 14
+        uses: actions/setup-java@v1
+        with:
+          java-version: 14
+
+      - name: Generate javadoc
+        continue-on-error: true
+        run:
+          mvn javadoc:javadoc --file pom.xml
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Generates javadoc

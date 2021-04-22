@@ -1,7 +1,8 @@
-name: Push validation
+name: Push/PR validation
 
 on:
   push:
+  pull_request:
     branches:
       - dev/*
       - fix/*
@@ -25,10 +26,10 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Unit tests
-        run:
-          mvn verify --file pom.xml
-
       - name: Build
         run:
-          mvn -B package --file pom.xml
+          mvn compile --file pom.xml
+
+      - name: Unit tests
+        run:
+          mvn test --file pom.xml

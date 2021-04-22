@@ -121,6 +121,18 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Generate java doc in the docs/ directory via 'mvn javadoc:javadoc' command-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <reportOutputDirectory>${basedir}</reportOutputDirectory>
+                    <destDir>docs</destDir>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
