@@ -1,14 +1,12 @@
 package com.panda.dataframe;
 
-import com.panda.datacol.DataCol;
-import com.panda.datacol.DoubleDataCol;
-import com.panda.datacol.IntegerDataCol;
-import com.panda.datacol.StringDataCol;
+import com.panda.datacol.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -503,11 +501,8 @@ public class DataFrameTest {
     @Test
     @DisplayName("Test Constructeur with wrong file ")
     public void testConstructeurCSVwrong_file() {
-        Assertions.assertThrows(AssertionError.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                new DataFrame("src/test/CSV/test_type.txt");
-            }
+        Assertions.assertThrows(AssertionError.class,() -> {
+            new DataFrame("src/test/CSV/test_type.txt");
         });
     }
 
