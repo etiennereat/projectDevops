@@ -500,4 +500,34 @@ public class DataFrameTest {
 
         Assertions.assertSame(0, newDf.getIndexes().size());
     }
+
+    @Test
+    @DisplayName("Test show()")
+    public void testshow() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        double[] data = new double[]{1.0, 2.0, 3.0};
+
+        df.addCol("col1", new DoubleDataCol(data, indexes));
+        df.addCol("col2", new DoubleDataCol(data, indexes));
+        df.addCol("col3", new DoubleDataCol(data, indexes));
+        df.addCol("col4", new DoubleDataCol(data, indexes));
+
+        df.show();
+        assert(true);
+    }
+
+    @Test
+    @DisplayName("Test show(String index)")
+    public void testshow_index() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        double[] data = new double[]{1.0, 2.0, 3.0};
+
+        df.addCol("col1", new DoubleDataCol(data, indexes));
+        df.addCol("col2", new DoubleDataCol(data, indexes));
+        df.addCol("col3", new DoubleDataCol(data, indexes));
+        df.addCol("col4", new DoubleDataCol(data, indexes));
+
+        df.show("a");
+        assert(true);
+    }
 }

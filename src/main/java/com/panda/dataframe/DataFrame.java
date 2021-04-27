@@ -1,6 +1,10 @@
 package com.panda.dataframe;
 
 import com.panda.datacol.DataCol;
+import com.panda.datacol.StringDataCol;
+import com.panda.datacol.IntegerDataCol;
+import com.panda.datacol.DoubleDataCol;
+import com.panda.datacol.BooleanDataCol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -255,18 +259,72 @@ public class DataFrame {
     }
 
     /**
-     * @todo
+     * Prints the entire DataFrame
      */
     public void show() {
-        System.out.println("Table");
+        for(String label : getLabels()){
+            System.out.print(label + " ");
+        }
+        System.out.println();
+        for(String index : getIndexes()){
+            show(index);
+        }
     }
 
     /**
-     * @param index
-     * @todo
+     * Prints the first n colums of the DataFrame
+     *
+     * @param n - Integer
+     */
+    public void head(int n){
+        //Todo
+    }
+
+    /**
+     * Prints the last n colums of the DataFrame
+     *
+     * @param n - Integer
+     */
+    public void tail(int n){
+        //Todo
+    }
+
+    /**
+     * Prints the values of each colums for the index
+     *
+     * @param index - String in indexes to be printed
      */
     public void show(String index) {
-        System.out.printf("Table's '%s' row\n", index);
+        System.out.print(index + " : " + format(index) + "\n");
+    }
+
+    /**
+     * Format the line to print
+     *
+     * @param index - String in indexes to be formated
+     * @return line - Formated String
+     */
+    private String format(String index){
+        String line = "";
+        for(String label : labels){
+            switch (table.get(label).getType()){
+                case STRING :
+                    line = line + String.valueOf(((StringDataCol)(table.get(label))).get(index)) + " ";
+                    break;
+                case DOUBLE :
+                    line = line + String.valueOf(((DoubleDataCol)(table.get(label))).get(index)) + " ";
+                    break;
+                case INTEGER :
+                    line = line + String.valueOf(((IntegerDataCol)(table.get(label))).get(index)) + " ";
+                    break;
+                case BOOLEAN :
+                    line = line + String.valueOf(((BooleanDataCol)(table.get(label))).get(index)) + " ";
+                    break;
+                default :
+                    break;
+            }
+        }
+        return line;
     }
 
 }
