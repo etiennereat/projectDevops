@@ -1,14 +1,12 @@
 package com.panda.dataframe;
 
-import com.panda.datacol.DataCol;
-import com.panda.datacol.DoubleDataCol;
-import com.panda.datacol.IntegerDataCol;
-import com.panda.datacol.StringDataCol;
+import com.panda.datacol.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -500,4 +498,111 @@ public class DataFrameTest {
 
         Assertions.assertSame(0, newDf.getIndexes().size());
     }
+    @Test
+    @DisplayName("Test Constructeur with wrong file ")
+    public void testConstructeurCSVwrong_file() {
+        Assertions.assertThrows(AssertionError.class,() -> {
+            new DataFrame("src/test/CSV/test_type.txt");
+        });
+    }
+
+    @Test
+    @DisplayName("Test Constructeur with test_type.csv")
+    public void testConstructeurCSVtest_type() {
+        DataFrame frame = new DataFrame("src/test/CSV/test_type.csv");
+        ArrayList<String> goalLabel = new ArrayList();
+        goalLabel.add("label1");
+        goalLabel.add("label2");
+        goalLabel.add("label3");
+        goalLabel.add("label4");
+        for (String label : frame.getLabels()) {
+            Assertions.assertTrue(goalLabel.contains(label));
+        }
+        for (String index : frame.getIndexes()) {
+            Assertions.assertTrue(index.equals("index1"));
+        }
+        Assertions.assertEquals(ColType.INTEGER, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label4").getType());
+    }
+
+    @Test
+    @DisplayName("Test Constructeur with test_type_complexe.csv")
+    public void testConstructeurCSVtest_type_complexe() {
+        DataFrame frame = new DataFrame("src/test/CSV/test_type_complexe.csv");
+        ArrayList<String> goalLabel = new ArrayList();
+        goalLabel.add("label1");
+        goalLabel.add("label2");
+        goalLabel.add("label3");
+        goalLabel.add("label4");
+        for (String label : frame.getLabels()) {
+            Assertions.assertTrue(goalLabel.contains(label));
+        }
+        ArrayList<String> goalIndex = new ArrayList();
+        goalIndex.add("index1");
+        goalIndex.add("index2");
+        goalIndex.add("index3");
+        for (String index : frame.getIndexes()) {
+            Assertions.assertTrue(goalIndex.contains(index));
+        }
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label4").getType());
+    }
+
+    @Test
+    @DisplayName("Test Constructeur with test_type_complexe2.csv")
+    public void testConstructeurCSVtest_type_complexe2() {
+        DataFrame frame = new DataFrame("src/test/CSV/test_type_complexe2.csv");
+        ArrayList<String> goalLabel = new ArrayList();
+        goalLabel.add("label1");
+        goalLabel.add("label2");
+        goalLabel.add("label3");
+        goalLabel.add("label4");
+        for (String label : frame.getLabels()) {
+            Assertions.assertTrue(goalLabel.contains(label));
+        }
+        ArrayList<String> goalIndex = new ArrayList();
+        goalIndex.add("index1");
+        goalIndex.add("index2");
+        for (String index : frame.getIndexes()) {
+            Assertions.assertTrue(goalIndex.contains(index));
+        }
+        Assertions.assertEquals(ColType.INTEGER, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label4").getType());
+    }
+
+    @Test
+    @DisplayName("Test Constructeur with test_empty_case.csv")
+    public void testConstructeurCSVtest_empty_case() {
+        DataFrame frame = new DataFrame("src/test/CSV/test_empty_case.csv");
+        ArrayList<String> goalLabel = new ArrayList();
+        goalLabel.add("label1");
+        goalLabel.add("label2");
+        goalLabel.add("label3");
+        goalLabel.add("label4");
+        for (String label : frame.getLabels()) {
+            Assertions.assertTrue(goalLabel.contains(label));
+        }
+        ArrayList<String> goalIndex = new ArrayList();
+        goalIndex.add("index1");
+        goalIndex.add("index2");
+        goalIndex.add("index3");
+        for (String index : frame.getIndexes()) {
+            Assertions.assertTrue(goalIndex.contains(index));
+        }
+        Assertions.assertEquals(ColType.DOUBLE, frame.col("label1").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label2").getType());
+        Assertions.assertEquals(ColType.BOOLEAN, frame.col("label3").getType());
+        Assertions.assertEquals(ColType.STRING, frame.col("label4").getType());
+
+    }
+
+
+    //Todo test constructor with dataframe or datacol
+
 }

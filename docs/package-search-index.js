@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.panda.datacol"},{"l":"com.panda.dataframe"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.panda.datacol"},{"l":"com.panda.dataframe"},{"l":"com.panda.utils"}]
