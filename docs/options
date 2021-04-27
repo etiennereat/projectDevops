@@ -14,6 +14,8 @@
 'UTF-8'
 -doctitle
 'panda 1.0.0 API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/home/runner/work/projectDevops/projectDevops/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
