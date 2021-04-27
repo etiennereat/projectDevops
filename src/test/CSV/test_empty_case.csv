@@ -1,0 +1,4 @@
+label1,label2,label3,label4
+index1,1,data1,false,1.2,
+index2,1.2,
+index3,,1.2,true,data2,
