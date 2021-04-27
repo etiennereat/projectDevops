@@ -275,33 +275,229 @@ public class DataFrameTest {
     }
 
     @Test
-    @DisplayName("Test show()")
-    public void testshow() {
-        String[] indexes = new String[]{"a", "b", "c"};
-        double[] data = new double[]{1.0, 2.0, 3.0};
+    @DisplayName("Test selectCols(from, to)")
+    public void testSelectCols() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
 
-        df.addCol("col1", new DoubleDataCol(data, indexes));
-        df.addCol("col2", new DoubleDataCol(data, indexes));
-        df.addCol("col3", new DoubleDataCol(data, indexes));
-        df.addCol("col4", new DoubleDataCol(data, indexes));
-
-        df.show();
-        assert(true);
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("doubles", "integers"));
+        DataFrame newDf = df.selectCols("doubles", "integers");
+        // select only the first two added cols
+        Assertions.assertEquals(goal, newDf.getLabels());
     }
 
     @Test
-    @DisplayName("Test show(String index)")
-    public void testshow_index() {
-        String[] indexes = new String[]{"a", "b", "c"};
-        double[] data = new double[]{1.0, 2.0, 3.0};
-
-        df.addCol("col1", new DoubleDataCol(data, indexes));
-        df.addCol("col2", new DoubleDataCol(data, indexes));
-        df.addCol("col3", new DoubleDataCol(data, indexes));
-        df.addCol("col4", new DoubleDataCol(data, indexes));
-
-        df.show("a");
-        assert(true);
+    @DisplayName("Test selectCols(from, to), on empty df")
+    public void testSelectColsOnEmpty() {
+        DataFrame newDf = df.selectCols("doubles", "integers");
+        Assertions.assertSame(0, newDf.getColsCount());
     }
 
+    @Test
+    @DisplayName("Test selectCols(from, to), bad from")
+    public void testSelectColsBadFrom() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
+
+        // strings > integers in the labels array
+        DataFrame newDf = df.selectCols("strings", "integers");
+        Assertions.assertSame(0, newDf.getColsCount());
+    }
+
+    @Test
+    @DisplayName("Test selectCols(from, to), null from")
+    public void testSelectColsNullFrom() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
+
+        // null is not a valid input
+        DataFrame newDf = df.selectCols(null, "integers");
+        Assertions.assertSame(0, newDf.getColsCount());
+    }
+
+    @Test
+    @DisplayName("Test selectCols(from, to), not existing to")
+    public void testSelectColsNotExistingTo() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
+
+        // booleans is not an existing label
+        DataFrame newDf = df.selectCols("doubles", "booleans");
+        Assertions.assertSame(0, newDf.getColsCount());
+    }
+
+
+    @Test
+    @DisplayName("Test selectCols(list)")
+    public void testSelectColsList() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("doubles", "strings"));
+        DataFrame newDf = df.selectCols(goal);
+
+        Assertions.assertEquals(goal, newDf.getLabels());
+    }
+
+    @Test
+    @DisplayName("Test selectCols(labels), on empty df")
+    public void testSelectColsListOnEmpty() {
+        ArrayList<String> labels = new ArrayList<>(Arrays.asList("doubles", "strings"));
+        DataFrame newDf = df.selectCols(labels);
+
+        Assertions.assertSame(0, newDf.getColsCount());
+    }
+
+    @Test
+    @DisplayName("Test selectCols(labels), on missing cols")
+    public void testSelectColsListOnMissing() {
+        df.addCol("doubles", new DoubleDataCol());
+        df.addCol("integers", new IntegerDataCol());
+        df.addCol("strings", new StringDataCol());
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("doubles", "strings"));
+        ArrayList<String> labels = new ArrayList<>(Arrays.asList("doubles", "strings", "stuff", "test", null));
+        DataFrame newDf = df.selectCols(labels);
+
+        // should select only "doubles" and "strings", ignore: "stuff", "test", null
+        Assertions.assertEquals(goal, newDf.getLabels());
+    }
+
+    @Test
+    @DisplayName("Test selectCols(labels), on null list")
+    public void testSelectColsListNull() {
+        DataFrame newDf = df.selectCols(null);
+
+        Assertions.assertSame(0, newDf.getColsCount());
+    }
+
+
+    @Test
+    @DisplayName("Test selectRows(from, to)")
+    public void testSelectRows() {
+        String[] indexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+        double[] valuesDouble = new double[]{42, 142, 242};
+
+        df.addCol("doubles", new DoubleDataCol(valuesDouble, indexes));
+        df.addCol("integers", new IntegerDataCol(valuesInt, indexes));
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("1", "2"));
+        DataFrame newDf = df.selectRows("1", "2");
+
+        // select only the first two rows
+        Assertions.assertEquals(goal, newDf.getIndexes());
+    }
+
+    @Test
+    @DisplayName("Test selectRows(from, to), on empty df")
+    public void testSelectRowsOnEmpty() {
+        DataFrame newDf = df.selectRows("0", "1000");
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
+
+
+    @Test
+    @DisplayName("Test selectRows(from, to), bad from")
+    public void testSelectRowsBadFrom() {
+        String[] indexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+        double[] valuesDouble = new double[]{42, 142, 242};
+
+        df.addCol("doubles", new DoubleDataCol(valuesDouble, indexes));
+        df.addCol("integers", new IntegerDataCol(valuesInt, indexes));
+
+        DataFrame newDf = df.selectRows("3", "2");
+
+        // 3 > 2
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
+
+    @Test
+    @DisplayName("Test selectRows(from, to), null from")
+    public void testSelectRowsNullFrom() {
+        String[] indexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+
+        df.addCol("integers", new IntegerDataCol(valuesInt, indexes));
+
+        DataFrame newDf = df.selectRows(null, "2");
+
+        // from = null
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
+
+
+    @Test
+    @DisplayName("Test selectRows(from, to), not existing to")
+    public void testSelectRowsNotExistingTo() {
+        String[] indexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+        double[] valuesDouble = new double[]{42, 142, 242};
+
+        df.addCol("doubles", new DoubleDataCol(valuesDouble, indexes));
+        df.addCol("integers", new IntegerDataCol(valuesInt, indexes));
+
+        DataFrame newDf = df.selectRows("3", "200");
+
+        // 200 does not exist
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
+
+
+    @Test
+    @DisplayName("Test selectRows(list)")
+    public void testSelectRowsList() {
+        String[] indexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+        double[] valuesDouble = new double[]{42, 142, 242};
+
+        df.addCol("doubles", new DoubleDataCol(valuesDouble, indexes));
+        df.addCol("integers", new IntegerDataCol(valuesInt, indexes));
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("1", "2"));
+        DataFrame newDf = df.selectRows(goal);
+
+        Assertions.assertEquals(goal, newDf.getIndexes());
+    }
+
+    @Test
+    @DisplayName("Test selectRows(labels), on empty df")
+    public void testSelectRowsListOnEmpty() {
+        ArrayList<String> indexes = new ArrayList<>(Arrays.asList("doubles", "strings"));
+        DataFrame newDf = df.selectRows(indexes);
+
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
+
+    @Test
+    @DisplayName("Test selectRows(labels), on missing indexes")
+    public void testSelectRowsListOnMissing() {
+        String[] colsIndexes = new String[]{"1", "2", "3"};
+        int[] valuesInt = new int[]{42, 142, 242};
+        double[] valuesDouble = new double[]{42, 142, 242};
+
+        df.addCol("doubles", new DoubleDataCol(valuesDouble, colsIndexes));
+        df.addCol("integers", new IntegerDataCol(valuesInt, colsIndexes));
+
+        ArrayList<String> goal = new ArrayList<>(Arrays.asList("3", "2"));
+        ArrayList<String> indexes = new ArrayList<>(Arrays.asList("test", "3", "stuff", null, "2"));
+        DataFrame newDf = df.selectRows(indexes);
+
+        // should select only "3" and "2", ignore: "stuff", "test", null
+        Assertions.assertEquals(goal, newDf.getIndexes());
+    }
+
+    @Test
+    @DisplayName("Test selectRows(labels), on null list")
+    public void testSelectRowsListNull() {
+        DataFrame newDf = df.selectRows(null);
+
+        Assertions.assertSame(0, newDf.getIndexes().size());
+    }
 }

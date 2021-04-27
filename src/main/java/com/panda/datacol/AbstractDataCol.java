@@ -7,7 +7,6 @@ import java.util.HashMap;
  * Abstract class offering shared functionality between different
  * types of DataCol-s.
  *
- * @todo select intervals of indexes
  * @todo sort
  * @todo swap
  */
@@ -183,4 +182,37 @@ public abstract class AbstractDataCol<T> implements DataCol {
         return buffer.toString();
     }
 
+    /**
+     * Method used to fill a AbstractDataCol with data between indexes from and to.
+     *
+     * @param from - starting index
+     * @param to   - closing index
+     * @param into - target DataCol
+     */
+    protected void selectRowsInto(String from, String to, AbstractDataCol<T> into) {
+        int indexOfFrom = indexes.indexOf(from);
+        int indexOfTo = indexes.indexOf(to);
+
+        if (indexOfFrom >= 0 && indexOfTo >= 0 && indexOfFrom < indexOfTo) {
+            for (int i = indexOfFrom; i <= indexOfTo; i++) {
+                into.add(data.get(indexes.get(i)), indexes.get(i));
+            }
+        }
+    }
+
+    /**
+     * Method used to fill a AbstractDataCol with data associated to indexes.
+     *
+     * @param indexes - indexes list
+     * @param into    - target DataCol
+     */
+    protected void selectRowsInto(ArrayList<String> indexes, AbstractDataCol<T> into) {
+        if (indexes != null && indexes.size() > 0) {
+            for (String index : indexes) {
+                if (this.indexes.contains(index)) {
+                    into.add(data.get(index), index);
+                }
+            }
+        }
+    }
 }

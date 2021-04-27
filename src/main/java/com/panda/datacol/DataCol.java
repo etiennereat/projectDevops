@@ -60,4 +60,20 @@ public interface DataCol {
      */
     void show();
 
+    /**
+     * Select a range of rows.
+     *
+     * @param from - starting index
+     * @param to   - ending index
+     * @return a new DataCol
+     */
+    DataCol selectRows(String from, String to);
+
+    /**
+     * Select the rows associated to the requested indexes.
+     *
+     * @param indexes - list of indexes
+     * @return a new DataCol
+     */
+    DataCol selectRows(ArrayList<String> indexes);
 }

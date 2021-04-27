@@ -1,0 +1,20 @@
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/runner/work/projectDevops/projectDevops/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2021. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/runner/work/projectDevops/projectDevops/docs'
+-docencoding
+'UTF-8'
+-doctitle
+'panda 1.0.0 API'
+-use
+-version
+-windowtitle
+'panda 1.0.0 API'
