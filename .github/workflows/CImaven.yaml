@@ -3,7 +3,6 @@
 
 name: Java CI with Maven
 
-
 on:
   push:
     branches: [ integration_test ]
@@ -32,6 +31,8 @@ jobs:
 
       -name: 5 - Target folder content
         run: ls -a
+
+        #quite franckly i'm lost
         #test if version is snapshots
         #build
         #publish the things
