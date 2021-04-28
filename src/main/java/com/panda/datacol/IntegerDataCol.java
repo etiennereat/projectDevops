@@ -1,6 +1,7 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -85,5 +86,129 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         IntegerDataCol newDataCol = new IntegerDataCol();
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
+    }
+
+    /**
+     * return min value of the datacol
+     * @return min value or null if the col is empty
+     */
+    public Integer min() {
+        Integer min = Integer.MAX_VALUE;
+        Integer save = null;
+        for(Map.Entry row :data.entrySet()){
+            Integer value = (Integer)row.getValue();
+            if(value != null && min > value){
+                min = value;
+                save = value;
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return max value of the datacol
+     * @return max value or null if the col is empty
+     */
+    public Integer max() {
+        Integer max = Integer.MIN_VALUE;
+        Integer save = null;
+        for(Map.Entry row :data.entrySet()){
+            Integer value = (Integer)row.getValue();
+            if(value != null && max < value){
+                max = value;
+                save = value;
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return means of integer in the datacol
+     * @return means value or 0 if empty
+     */
+    public double means() {
+        double somme = 0;
+        double compteur =0;
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if(value != null ) {
+                somme += value;
+                compteur++;
+            }
+        }
+        return somme / Math.max(compteur,1);
+    }
+
+    /**
+     * return sum of Double in the datacol
+     * @return sum value or 0 if empty
+     */
+    public int sum() {
+        int somme = 0;
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if(value != null ) {
+                somme += value;
+            }
+        }
+        return somme;
+    }
+
+    /**
+     * Sorts the data column (attribute data) by value from lowest integer to highest
+     * Replaces original data, doesn't return anything
+     */
+    @Override
+    public void sortByValue() {
+        HashMap passedMap = this.data;
+        List<Integer> mapValues = new ArrayList(passedMap.values());
+        List<String> mapKeys = new ArrayList(passedMap.keySet());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        HashMap<String, Integer> sortedMap = new LinkedHashMap<>();
+
+        Iterator<Integer> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            int val = valueIt.next();
+            Iterator<String> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                String key = keyIt.next();
+                int comp1 = (int) passedMap.get(key);
+
+                if (val==comp1) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        this.data = sortedMap;
+    }
+
+    /**
+     * Returns whether the integer data column is sorted
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
+    @Override
+    public boolean isSorted() {
+        if(this.data.isEmpty()){return true;}
+        int current, previous = 0;
+        boolean isFirst = true;
+
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (int) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (int) (mapentry.getValue());
+                if(previous > current){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
     }
 }

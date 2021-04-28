@@ -214,4 +214,76 @@ public class BooleanDataColTest {
         BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
+    @Test
+    @DisplayName("Test proportion of true")
+    public void testTrueProportion() {
+        boolean[] values = {true, false, false, false, false, true, false, false, false, false, true, false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(2. / 11. * 100., dc.trueProportion());
+    }
+
+    @Test
+    @DisplayName("Test distribution")
+    public void testdistribution() {
+        boolean[] values = {true, false, false, false, false, true, false, false, false, false, true, false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        int[] distrib = dc.distribution();
+        Assertions.assertEquals(2,distrib[0]);
+        Assertions.assertEquals(9,distrib[1]);
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 0 elements")
+    public void testIsSorted0(){
+        BooleanDataCol dc = new BooleanDataCol();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 1 elements")
+    public void testIsSorted1(){
+        boolean[] values = {true};
+        String[] indexes = {"a"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, not sorted")
+    public void testIsSortedFalse(){
+        boolean[] values = { true, false, true};
+        String[] indexes = { "a", "b", "c"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertFalse(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, sorted")
+    public void testIsSorted(){
+        boolean[] values = { true, true, false};
+        String[] indexes = { "a", "b", "c"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, no element")
+    public void testSortEmpty(){
+        BooleanDataCol dc = new BooleanDataCol();
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, 5 elems")
+    public void testSort1(){
+        boolean[] values = {false, true, true, false, true};
+        String[] indexes = { "a", "b", "c", "d", "e"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
 }

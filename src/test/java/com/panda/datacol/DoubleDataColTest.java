@@ -215,4 +215,92 @@ public class DoubleDataColTest {
         DoubleDataCol dc = new DoubleDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
+    @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        double[] values = {8, 5, 3, 4, 2,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(5.2, dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        double[] values = {0.99, 5, 3, 4, 1,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(1, dc.min());
+    }
+
+    @Test
+    @DisplayName("Test means")
+    public void testMeans() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(3.11875, dc.means());
+    }
+
+    @Test
+    @DisplayName("Test sum")
+    public void testSum() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(24.95, dc.sum());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 0 elements")
+    public void testIsSorted0(){
+        DoubleDataCol dc = new DoubleDataCol();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 1 elements")
+    public void testIsSorted1(){
+        double[] values = {69};
+        String[] indexes = {"a"};
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, not sorted")
+    public void testIsSortedFalse(){
+        double[] values = { 6, 12, 2};
+        String[] indexes = { "a", "b", "c"};
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        Assertions.assertFalse(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, sorted")
+    public void testIsSorted(){
+        double[] values = { 1, 2, 3};
+        String[] indexes = { "a", "b", "c"};
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, no element")
+    public void testSortEmpty(){
+        DoubleDataCol dc = new DoubleDataCol();
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, 5 elems")
+    public void testSort1(){
+        double[] values = { 1, 4, 2, 13, 3};
+        String[] indexes = { "a", "b", "c", "d", "e"};
+        DoubleDataCol dc = new DoubleDataCol(values, indexes);
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
 }

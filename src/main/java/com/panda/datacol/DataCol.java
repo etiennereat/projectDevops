@@ -76,4 +76,12 @@ public interface DataCol {
      * @return a new DataCol
      */
     DataCol selectRows(ArrayList<String> indexes);
+
+    /**
+     * Sorts the columns by value
+     * @return
+     */
+    void sortByValue();
+
+    boolean isSorted();
 }

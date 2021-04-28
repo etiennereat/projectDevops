@@ -1,6 +1,9 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.*;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -85,4 +88,90 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+    /**
+     * Sorts the data column (attribute data) by value, with true first and then false
+     * Replaces original data, doesn't return anything
+     */
+    @Override
+    public void sortByValue() {
+        HashMap<String, Boolean> mapRes= new HashMap<>();
+        List<String> keysList = new ArrayList(this.data.keySet());
+        int i = 0;
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (!val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+        this.data = mapRes;
+    }
+
+    /**
+     * Returns whether the boolean data column is sorted (only true then only false)
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
+    @Override
+    public boolean isSorted() {
+        boolean isFirst = true;
+        boolean current, previous = true;
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (boolean) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (boolean) (mapentry.getValue());
+                if(current && !previous){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * return distribution of true and false in the datacol
+     * @return int[2] = {trueNB,FalseNB}
+     */
+    public int[] distribution(){
+        int[] distrib = {0,0};
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if(value != null ) {
+                if(value){
+                    distrib[0]++;
+                }
+                else{
+                    distrib[1]++;
+                }
+            }
+        }
+        return distrib;
+    }
+
+    /**
+     * return proportion of true in the datacol
+     * @return proportion or 0 if it's empty
+     */
+    public double trueProportion(){
+        int[] distrib = distribution();
+        return (double)(distrib[0]) / (double)(Math.max(distrib[0]+distrib[1],1)) * 100.;
+    }
+
+
+
 }

@@ -1,6 +1,6 @@
 # Panda
 
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/etiennereat/projectDevops/main)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/etiennereat/projectDevops/development)
 ![GitHub repo size](https://img.shields.io/github/repo-size/etiennereat/projectDevops)
 ![GitHub top language](https://img.shields.io/github/languages/top/etiennereat/projectDevops)
 ![codecov](https://codecov.io/gh/etiennereat/projectDevops/branch/development/graph/badge.svg?token=YRL0FVRI5K)
