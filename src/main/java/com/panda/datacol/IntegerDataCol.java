@@ -138,4 +138,19 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         }
         return somme / Math.max(compteur,1);
     }
+
+    /**
+     * return means of integer in the datacol
+     * @return means value or 0 if empty
+     */
+    public int sum() {
+        int somme = 0;
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if(value != null ) {
+                somme += value;
+            }
+        }
+        return somme;
+    }
 }

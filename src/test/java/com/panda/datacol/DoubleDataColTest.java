@@ -239,4 +239,12 @@ public class DoubleDataColTest {
         DoubleDataCol dc = new DoubleDataCol(values);
         Assertions.assertEquals(2.55, dc.means());
     }
+
+    @Test
+    @DisplayName("Test sum")
+    public void testSum() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertEquals(22.95, dc.sum());
+    }
 }

@@ -240,4 +240,12 @@ public class IntegerDataColTest {
         Assertions.assertEquals(3.4285714285714284, dc.means());
     }
 
+    @Test
+    @DisplayName("Test sum")
+    public void testSum() {
+        int[] values = {1, 5, 3, 4, 9,-1,3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        Assertions.assertEquals(24, dc.sum());
+    }
+
 }

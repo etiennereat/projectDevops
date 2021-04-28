@@ -141,4 +141,15 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         return somme / Math.max(compteur,1);
     }
 
+    public double sum(){
+        double somme = 0;
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if(value != null ) {
+                somme += value;
+            }
+        }
+        return somme;
+    }
+
 }
