@@ -86,4 +86,14 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+    @Override
+    public void sortByValue() {
+
+    }
+
+    @Override
+    public boolean isSorted() {
+        return false;
+    }
 }

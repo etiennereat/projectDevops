@@ -1,6 +1,6 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * DataColumn of Integers.
@@ -85,4 +85,55 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+    @Override
+    public void sortByValue() {
+        HashMap passedMap = this.data;
+        List<Double> mapValues = new ArrayList(passedMap.values());
+        List<String> mapKeys = new ArrayList(passedMap.keySet());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        HashMap<String, Double> sortedMap = new LinkedHashMap<>();
+
+        Iterator<Double> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Double val = valueIt.next();
+            Iterator<String> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                String key = keyIt.next();
+                Double comp1 = (double) passedMap.get(key);
+
+                if (val.equals(comp1)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        this.data = sortedMap;
+    }
+
+    @Override
+    public boolean isSorted() {
+        if(this.data.isEmpty()){return true;}
+        double current, previous = 0;
+        boolean isFirst = true;
+
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (double) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (double) (mapentry.getValue());
+                if(previous > current){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
+    }
+
 }

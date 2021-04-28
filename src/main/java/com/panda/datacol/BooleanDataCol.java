@@ -85,4 +85,14 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+    @Override
+    public void sortByValue() {
+        //
+    }
+
+    @Override
+    public boolean isSorted() {
+        return false;
+    }
 }
