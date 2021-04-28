@@ -87,6 +87,10 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         return newDataCol;
     }
 
+    /**
+     * Sorts the data column (attribute data) by value from lowest integer to highest
+     * Replaces original data, doesn't return anything
+     */
     @Override
     public void sortByValue() {
         HashMap passedMap = this.data;
@@ -116,6 +120,10 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         this.data = sortedMap;
     }
 
+    /**
+     * Returns whether the integer data column is sorted
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
     @Override
     public boolean isSorted() {
         if(this.data.isEmpty()){return true;}

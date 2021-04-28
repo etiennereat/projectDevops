@@ -90,6 +90,10 @@ public class StringDataCol extends AbstractDataCol<String> {
         return newDataCol;
     }
 
+    /**
+     * Sorts the data column (attribute data) by alphabetical order
+     * Replaces original data, doesn't return anything
+     */
     @Override
     public void sortByValue() {
         HashMap<String, String> mapRes= new HashMap<>();
@@ -103,6 +107,10 @@ public class StringDataCol extends AbstractDataCol<String> {
         this.data = mapRes;
     }
 
+    /**
+     * Returns whether the boolean data column is sorted alphabetically
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
     @Override
     public boolean isSorted() {
         List<String> valueList = new ArrayList(this.data.values());

@@ -86,6 +86,10 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         return newDataCol;
     }
 
+    /**
+     * Sorts the data column (attribute data) by value from lowest double to highest
+     * Replaces original data, doesn't return anything
+     */
     @Override
     public void sortByValue() {
         HashMap passedMap = this.data;
@@ -115,6 +119,10 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         this.data = sortedMap;
     }
 
+    /**
+     * Returns whether the double data column is sorted
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
     @Override
     public boolean isSorted() {
         if(this.data.isEmpty()){return true;}

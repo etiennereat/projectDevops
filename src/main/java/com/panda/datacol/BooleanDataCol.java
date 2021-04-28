@@ -86,6 +86,10 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         return newDataCol;
     }
 
+    /**
+     * Sorts the data column (attribute data) by value, with true first and then false
+     * Replaces original data, doesn't return anything
+     */
     @Override
     public void sortByValue() {
         HashMap<String, Boolean> mapRes= new HashMap<>();
@@ -112,6 +116,10 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         this.data = mapRes;
     }
 
+    /**
+     * Returns whether the boolean data column is sorted (only true then only false)
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
     @Override
     public boolean isSorted() {
         boolean isFirst = true;
