@@ -286,4 +286,59 @@ public class BooleanDataColTest {
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
     }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        boolean[] values = {true, true, true, true, true};
+        boolean[] valueGoal = {false, true, true, false, true};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        dc.remove("3");
+        dc.fillEmptySpaceWith(false);
+        int label = 0;
+        for (boolean valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test and operation ")
+    public void testAnd() {
+        boolean[] values = {false, true, false, true, true};
+        boolean[] values2 = {true, true, false, true, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.and(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals(values[label] && values2[label], dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test or operation ")
+    public void testOr() {
+        boolean[] values = {false, true, true, false, true};
+        boolean[] values2 = {true, true, false, false, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.or(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals(values[label] || values2[label], dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test xor operation ")
+    public void testXor() {
+        boolean[] values = {false, true, true, false, true};
+        boolean[] values2 = {true, true, false, false, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.xor(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label] || values2[label]) && (values[label] != values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
 }

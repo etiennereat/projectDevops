@@ -124,7 +124,7 @@ public class StringDataCol extends AbstractDataCol<String> {
      * return shortest string of the datacol
      * @return shortest string or null if the col is empty
      */
-    protected String min() {
+    public String min() {
         int max = Integer.MAX_VALUE;
         String save = null;
         for(Map.Entry row :data.entrySet()){
@@ -144,7 +144,7 @@ public class StringDataCol extends AbstractDataCol<String> {
      * return longest string of the datacol
      * @return longest string or null if the col is empty
      */
-    protected String max() {
+    public String max() {
         int max = -1;
         String save = null;
         for(Map.Entry row :data.entrySet()){
@@ -159,4 +159,64 @@ public class StringDataCol extends AbstractDataCol<String> {
         }
         return save;
     }
+
+    /**
+     * concatenate at left all String in the datacol
+     * @param add String to concatenate
+     */
+    public void concatenateLeftToAll(String add){
+        for(Map.Entry row :data.entrySet()){
+            String value = (String)row.getValue();
+            if(value != null ) {
+                data.put((String) row.getKey(), add+value);
+            }
+        }
+    }
+
+    /**
+     * concatenate at right all String in the datacol
+     * @param add String to concatenate
+     */
+    public void concatenateRightToAll(String add){
+        for(Map.Entry row :data.entrySet()){
+            String value = (String)row.getValue();
+            if(value != null ) {
+                data.put((String) row.getKey(), value+add);
+            }
+        }
+    }
+
+    /**
+     * concatenate at right all String of stringCol in this
+     * @param stringCol datacol to concatenate
+     */
+    public void concatenateRight(StringDataCol stringCol){
+        for (Map.Entry row : data.entrySet()) {
+            String value = (String) row.getValue();
+            if (value != null) {
+                String string = stringCol.get((String)row.getKey());
+                if(string != null){
+                    data.put((String) row.getKey(),value+string);
+                }
+            }
+        }
+    }
+
+    /**
+     * concatenate at left all String of stringCol in this
+     * @param stringCol datacol to concatenate
+     */
+    public void concatenateLeft(StringDataCol stringCol){
+        for (Map.Entry row : data.entrySet()) {
+            String value = (String) row.getValue();
+            if (value != null) {
+                String string = stringCol.get((String)row.getKey());
+                if(string != null){
+                    data.put((String) row.getKey(),string+value);
+                }
+            }
+        }
+    }
+
+
 }

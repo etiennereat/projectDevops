@@ -304,4 +304,147 @@ public class IntegerDataColTest {
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
     }
+
+
+    @Test
+    @DisplayName("Test add to all element")
+    public void testAddToAll() {
+        int[] values = {1, 4, -2, 13, 3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.addToAll(2);
+        int label = 0;
+        for(int valueTest : values) {
+            Assertions.assertEquals(valueTest + 2, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test sub to all element")
+    public void testSubToAll() {
+        int[] values = {1, 4, -2, 13, 3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.subToAll(1);
+        int label = 0;
+        for(int valueTest : values) {
+            Assertions.assertEquals(valueTest - 1, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test multiply to all element")
+    public void testMultiplyToAll() {
+        int[] values = {1, 4, -2, 13, 3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.multiplyToAll(2);
+        int label = 0;
+        for(int valueTest : values) {
+            Assertions.assertEquals(valueTest* 2, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test divide to all element")
+    public void testDivideToAll() {
+        int[] values = {1, 4, -2, 13, 3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.divideToAll(2);
+        int label = 0;
+        for(int valueTest : values) {
+            Assertions.assertEquals(valueTest/2, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] valueGoal = {1, 8, -2, 13, 8};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
+        dc.remove("4");
+        dc.fillEmptySpaceWith(8);
+        int label = 0;
+        for (int valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test add with another datacol ")
+    public void testAddDatacol() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] values2 = {1, 8, -2, 13, 8,2};
+        IntegerDataCol dc = new IntegerDataCol(values2);
+        IntegerDataCol dc2 = new IntegerDataCol(values);
+        dc.addCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test add with another datacol ")
+    public void testSubDatacol() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] values2 = {1, 8, -2, 13, 8,2};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        IntegerDataCol dc2 = new IntegerDataCol(values2);
+        dc.subCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]-values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol ")
+    public void testDivideDatacol() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] values2 = {1, 8, -2, 13, 8,2,0};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        IntegerDataCol dc2 = new IntegerDataCol(values2);
+        dc.divideCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]/values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test multiply with another datacol ")
+    public void testMuliplyDatacol() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] values2 = {1, 8, -2, 13, 8,2};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        IntegerDataCol dc2 = new IntegerDataCol(values2);
+        dc.multiplyCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]*values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol with 0")
+    public void testDivideDatacolwithzero() {
+        int[] values = {1, 4, -2, 13, 3};
+        int[] values2 = {1, 0, -2, 13, 8};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        IntegerDataCol dc2 = new IntegerDataCol(values2);
+        Assertions.assertThrows(AssertionError.class,() -> {
+            dc.divideCol(dc2);
+        });
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol with 0")
+    public void testDividebyzero() {
+        int[] values = {1, 4, -2, 13, 3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        Assertions.assertThrows(AssertionError.class,() -> {
+            dc.divideToAll(0);
+        });
+    }
 }

@@ -1,5 +1,6 @@
 package com.panda.datacol;
 
+import com.panda.dataframe.DataFrame;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v)")
+    @DisplayName("Test DoubleDataCol(double[] v)")
     public void testConstructorWithValues() {
         double[] values = {1, 2, 3};
         DoubleDataCol dc = new DoubleDataCol(values);
@@ -38,7 +39,7 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i)")
+    @DisplayName("Test DoubleDataCol(double[] v, String[] i)")
     public void testConstructorWithValuesAndIndexes() {
         double[] values = {1, 2, 3};
         String[] indexes = {"a", "b", "c"};
@@ -57,7 +58,7 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i), empty i")
+    @DisplayName("Test DoubleDataCol(double[] v, String[] i), empty i")
     public void testConstructorWithValuesAndNoIndexes() {
         double[] values = {1, 2, 3};
         String[] indexes = {};
@@ -69,7 +70,7 @@ public class DoubleDataColTest {
     }
 
     @Test
-    @DisplayName("Test DoubleDataCol(int[] v, String[] i), less indexes")
+    @DisplayName("Test DoubleDataCol(double[] v, String[] i), less indexes")
     public void testConstructorWithValuesAndLessIndexes() {
         double[] values = {1, 2, 3};
         String[] indexes = {"a", "b"};
@@ -302,5 +303,147 @@ public class DoubleDataColTest {
         DoubleDataCol dc = new DoubleDataCol(values, indexes);
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test add to all element")
+    public void testAddToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.addToAll(1.4);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest + 1.4, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test sub to all element")
+    public void testSubToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.subToAll(1.4);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest - 1.4, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test multiply to all element")
+    public void testMultiplyToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.multiplyToAll(2.2);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest* 2.2, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test divide to all element")
+    public void testDivideToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.divideToAll(2.5);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest/2.5, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] valueGoal = {1, 8.2, -2, 13, 8.2};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("1");
+        dc.remove("4");
+        dc.fillEmptySpaceWith(8.2);
+        int label = 0;
+        for (double valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test add with another datacol ")
+    public void testAddDatacol() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] values2 = {1, 8, -2, 13, 8,2};
+        DoubleDataCol dc = new DoubleDataCol(values2);
+        DoubleDataCol dc2 = new DoubleDataCol(values);
+        dc.addCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test add with another datacol ")
+    public void testSubDatacol() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] values2 = {1, 8, -2, 13, 8,2};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        DoubleDataCol dc2 = new DoubleDataCol(values2);
+        dc.subCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]-values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol ")
+    public void testDivideDatacol() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] values2 = {1, 8, -2, 13, 8,2,0};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        DoubleDataCol dc2 = new DoubleDataCol(values2);
+        dc.divideCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]/values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test multiply with another datacol ")
+    public void testMuliplyDatacol() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] values2 = {1, 8, -2, 13, 8,2};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        DoubleDataCol dc2 = new DoubleDataCol(values2);
+        dc.multiplyCol(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]*values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol with 0")
+    public void testDivideDatacolwithzero() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] values2 = {1, 0, -2, 13, 8};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        DoubleDataCol dc2 = new DoubleDataCol(values2);
+        Assertions.assertThrows(AssertionError.class,() -> {
+            dc.divideCol(dc2);
+        });
+    }
+
+    @Test
+    @DisplayName("test divide with another datacol with 0")
+    public void testDividebyzero() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertThrows(AssertionError.class,() -> {
+            dc.divideToAll(0);
+        });
     }
 }

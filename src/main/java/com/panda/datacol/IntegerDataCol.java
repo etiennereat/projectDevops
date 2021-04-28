@@ -211,4 +211,126 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         }
         return true;
     }
+
+
+    /**
+     * add to all int in datacol the value in parameter
+     *
+     * @param valueToAdd value to add
+     */
+    public void addToAll(int valueToAdd) {
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value += valueToAdd;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * sub to all int in datacol the value in parameter
+     *
+     * @param valueToSub value to sub
+     */
+    public void subToAll(int valueToSub) {
+        addToAll(-valueToSub);
+    }
+
+    /**
+     * multiply to all int in datacol the value in parameter
+     *
+     * @param valueTomultiply value to multiply
+     */
+    public void multiplyToAll(int valueTomultiply) {
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value *= valueTomultiply;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * divide to all int in datacol the value in parameter
+     * assert fail if valueTodivide equals 0
+     * @param valueTodivide value to multiply
+     */
+    public void divideToAll(int valueTodivide) {
+        assert(valueTodivide != 0);
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value /= valueTodivide;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * add integer from col to this
+     * @param integerDataCol
+     */
+    public void addCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),integer+value);
+                }
+            }
+        }
+    }
+
+    /**
+     * sub integer from col to this
+     * @param integerDataCol
+     */
+    public void subCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),value-integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * divide integer from col to this
+     * assert fail if 0 in integerDataCol
+     * @param integerDataCol
+     */
+    public void divideCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null ){
+                    assert(integer != 0);
+                    data.put((String) row.getKey(),value/integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * multiply integer from col to this
+     * @param integerDataCol
+     */
+    public void multiplyCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),value*integer);
+                }
+            }
+        }
+    }
 }

@@ -219,7 +219,7 @@ public class StringDataColTest {
     @Test
     @DisplayName("Test max")
     public void testMax() {
-        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        String[] values = {"zero", "un", "deux", "trois", "quatre", "cinq"};
         StringDataCol dc = new StringDataCol(values);
         dc.remove("4");
         Assertions.assertEquals("trois", dc.max());
@@ -228,7 +228,7 @@ public class StringDataColTest {
     @Test
     @DisplayName("Test min")
     public void testMin() {
-        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        String[] values = {"zero", "un", "deux", "trois", "quatre", "cinq"};
         StringDataCol dc = new StringDataCol(values);
         dc.remove("1");
         Assertions.assertEquals("zero", dc.min());
@@ -236,14 +236,14 @@ public class StringDataColTest {
 
     @Test
     @DisplayName("Test isSorted, 0 elements")
-    public void testIsSorted0(){
+    public void testIsSorted0() {
         StringDataCol dc = new StringDataCol();
         Assertions.assertTrue(dc.isSorted());
     }
 
     @Test
     @DisplayName("Test isSorted, 1 elements")
-    public void testIsSorted1(){
+    public void testIsSorted1() {
         String[] values = {"Flacide"};
         String[] indexes = {"a"};
         StringDataCol dc = new StringDataCol(values, indexes);
@@ -252,34 +252,34 @@ public class StringDataColTest {
 
     @Test
     @DisplayName("Test isSorted, 3 elements, not sorted")
-    public void testIsSortedFalse(){
-        String[] values = { "BurgerKing", "Abo", "Bazinga"};
-        String[] indexes = { "a", "b", "c"};
+    public void testIsSortedFalse() {
+        String[] values = {"BurgerKing", "Abo", "Bazinga"};
+        String[] indexes = {"a", "b", "c"};
         StringDataCol dc = new StringDataCol(values, indexes);
         Assertions.assertFalse(dc.isSorted());
     }
 
     @Test
     @DisplayName("Test isSorted, 3 elements, not sorted, 3rd letter")
-    public void testIsSortedFalseHard(){
-        String[] values = { "Whbt", "What", "Whct"};
-        String[] indexes = { "a", "b", "c"};
+    public void testIsSortedFalseHard() {
+        String[] values = {"Whbt", "What", "Whct"};
+        String[] indexes = {"a", "b", "c"};
         StringDataCol dc = new StringDataCol(values, indexes);
         Assertions.assertFalse(dc.isSorted());
     }
 
     @Test
     @DisplayName("Test isSorted, 3 elements, sorted")
-    public void testIsSorted(){
-        String[] values = { "Abc", "Bca", "Cab"};
-        String[] indexes = { "a", "b", "c"};
+    public void testIsSorted() {
+        String[] values = {"Abc", "Bca", "Cab"};
+        String[] indexes = {"a", "b", "c"};
         StringDataCol dc = new StringDataCol(values, indexes);
         Assertions.assertTrue(dc.isSorted());
     }
 
     @Test
     @DisplayName("Test sortByValue, no element")
-    public void testSortEmpty(){
+    public void testSortEmpty() {
         StringDataCol dc = new StringDataCol();
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
@@ -287,11 +287,79 @@ public class StringDataColTest {
 
     @Test
     @DisplayName("Test sortByValue, 5 elems")
-    public void testSort1(){
-        String[] values = { "Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
-        String[] indexes = { "a", "b", "c", "d", "e"};
+    public void testSort1() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] indexes = {"a", "b", "c", "d", "e"};
         StringDataCol dc = new StringDataCol(values, indexes);
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("test concate at left all")
+    public void testConcateLeftToAll() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        StringDataCol dc = new StringDataCol(values);
+        dc.concatenateLeftToAll("Mr.");
+        int label = 0;
+        for (String valueTest : values) {
+            Assertions.assertEquals("Mr." + valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test concate at right all")
+    public void testConcateRightToAll() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        StringDataCol dc = new StringDataCol(values);
+        dc.concatenateRightToAll("...");
+        int label = 0;
+        for (String valueTest : values) {
+            Assertions.assertEquals(valueTest + "...", dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] valueGoal = {"Xin Zhao", "fill", "Aatrox", "Vayne", "fill"};
+        StringDataCol dc = new StringDataCol(values);
+        dc.remove("1");
+        dc.remove("4");
+        dc.fillEmptySpaceWith("fill");
+        int label = 0;
+        for (String valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test concat right with another datacol ")
+    public void testConcateDatacolRight() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] values2 = {"Mr.", "Mme.", "Mlle.", "Miss", "Mister"};
+        StringDataCol dc = new StringDataCol(values);
+        StringDataCol dc2 = new StringDataCol(values2);
+        dc.concatenateRight(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test concat left with another datacol ")
+    public void testConcateDatacolLeft() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] values2 = {"Mr.", "Mme.", "Mlle.", "Miss", "Mister"};
+        StringDataCol dc = new StringDataCol(values2);
+        StringDataCol dc2 = new StringDataCol(values);
+        dc.concatenateLeft(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
     }
 }
