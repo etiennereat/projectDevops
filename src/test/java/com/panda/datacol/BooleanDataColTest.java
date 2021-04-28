@@ -214,4 +214,13 @@ public class BooleanDataColTest {
         BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
+    @Test
+    @DisplayName("Test proportion of true")
+    public void testTrueProportion() {
+        boolean[] values = {true, false, false, false, false, true, false, false, false, false, true, false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(2. / 11. * 100., dc.trueProportion());
+    }
 }

@@ -219,17 +219,19 @@ public class DoubleDataColTest {
     @Test
     @DisplayName("Test max")
     public void testMax() {
-        double[] values = {1, 5, 3, 4, 2,5.2,3};
+        double[] values = {8, 5, 3, 4, 2,5.2,3};
         DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
         Assertions.assertEquals(5.2, dc.max());
     }
 
     @Test
     @DisplayName("Test min")
     public void testMin() {
-        double[] values = {1, 5, 3, 4, 0.99,5.2,3};
+        double[] values = {0.99, 5, 3, 4, 1,5.2,3};
         DoubleDataCol dc = new DoubleDataCol(values);
-        Assertions.assertEquals(0.99, dc.min());
+        dc.remove("0");
+        Assertions.assertEquals(1, dc.min());
     }
 
     @Test
@@ -237,7 +239,8 @@ public class DoubleDataColTest {
     public void testMeans() {
         double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
         DoubleDataCol dc = new DoubleDataCol(values);
-        Assertions.assertEquals(2.55, dc.means());
+        dc.remove("0");
+        Assertions.assertEquals(3.11875, dc.means());
     }
 
     @Test
@@ -245,6 +248,7 @@ public class DoubleDataColTest {
     public void testSum() {
         double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
         DoubleDataCol dc = new DoubleDataCol(values);
-        Assertions.assertEquals(22.95, dc.sum());
+        dc.remove("0");
+        Assertions.assertEquals(24.95, dc.sum());
     }
 }

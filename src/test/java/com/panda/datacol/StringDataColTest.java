@@ -221,7 +221,8 @@ public class StringDataColTest {
     public void testMax() {
         String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
         StringDataCol dc = new StringDataCol(values);
-        Assertions.assertEquals("quatre", dc.max());
+        dc.remove("4");
+        Assertions.assertEquals("trois", dc.max());
     }
 
     @Test
@@ -229,6 +230,7 @@ public class StringDataColTest {
     public void testMin() {
         String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
         StringDataCol dc = new StringDataCol(values);
-        Assertions.assertEquals("un", dc.min());
+        dc.remove("1");
+        Assertions.assertEquals("zero", dc.min());
     }
 }

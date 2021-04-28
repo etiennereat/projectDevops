@@ -221,14 +221,16 @@ public class IntegerDataColTest {
     public void testMax() {
         int[] values = {1, 5, 3, 4, 2,1,3};
         IntegerDataCol dc = new IntegerDataCol(values);
-        Assertions.assertEquals(5, dc.max());
+        dc.remove("1");
+        Assertions.assertEquals(4, dc.max());
     }
 
     @Test
     @DisplayName("Test min")
     public void testMin() {
-        int[] values = {1, 5, 3, 4, 200,-1,3};
+        int[] values = {1, -5, 3, 4, 200,-1,3};
         IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
         Assertions.assertEquals(-1, dc.min());
     }
 
@@ -237,7 +239,8 @@ public class IntegerDataColTest {
     public void testMeans() {
         int[] values = {1, 5, 3, 4, 9,-1,3};
         IntegerDataCol dc = new IntegerDataCol(values);
-        Assertions.assertEquals(3.4285714285714284, dc.means());
+        dc.remove("1");
+        Assertions.assertEquals(3.1666666666666665, dc.means());
     }
 
     @Test
@@ -245,7 +248,8 @@ public class IntegerDataColTest {
     public void testSum() {
         int[] values = {1, 5, 3, 4, 9,-1,3};
         IntegerDataCol dc = new IntegerDataCol(values);
-        Assertions.assertEquals(24, dc.sum());
+        dc.remove("1");
+        Assertions.assertEquals(19, dc.sum());
     }
 
 }

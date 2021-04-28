@@ -140,8 +140,8 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
     }
 
     /**
-     * return means of integer in the datacol
-     * @return means value or 0 if empty
+     * return sum of Double in the datacol
+     * @return sum value or 0 if empty
      */
     public int sum() {
         int somme = 0;

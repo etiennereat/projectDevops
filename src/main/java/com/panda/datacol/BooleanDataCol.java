@@ -3,6 +3,7 @@ package com.panda.datacol;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -86,6 +87,23 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         BooleanDataCol newDataCol = new BooleanDataCol();
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
+    }
+
+    /**
+     * return proportion of true in the datacol
+     * @return proportion or 0 if it's empty
+     */
+    public double trueProportion(){
+        double compteur =0;
+        double compteurTrue =0;
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if(value != null ) {
+                if(value){compteurTrue++;}
+                compteur++;
+            }
+        }
+        return compteurTrue / Math.max(compteur,1) * 100;
     }
 
 

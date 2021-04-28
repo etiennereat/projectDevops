@@ -141,6 +141,10 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         return somme / Math.max(compteur,1);
     }
 
+    /**
+     * return sum of Double in the datacol
+     * @return sum value or 0 if empty
+     */
     public double sum(){
         double somme = 0;
         for (Map.Entry row : data.entrySet()) {
