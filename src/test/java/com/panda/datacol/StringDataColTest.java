@@ -215,4 +215,20 @@ public class StringDataColTest {
         StringDataCol dc = new StringDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
+    @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        StringDataCol dc = new StringDataCol(values);
+        Assertions.assertEquals("quatre", dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        StringDataCol dc = new StringDataCol(values);
+        Assertions.assertEquals("un", dc.min());
+    }
 }

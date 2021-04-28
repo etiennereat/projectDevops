@@ -214,4 +214,5 @@ public abstract class AbstractDataCol<T> implements DataCol {
             }
         }
     }
+
 }

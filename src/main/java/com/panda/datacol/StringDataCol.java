@@ -1,6 +1,7 @@
 package com.panda.datacol;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -85,5 +86,45 @@ public class StringDataCol extends AbstractDataCol<String> {
         StringDataCol newDataCol = new StringDataCol();
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
+    }
+
+    /**
+     * return shortest string of the datacol
+     * @return shortest string or null if the col is empty
+     */
+    protected String min() {
+        int max = Integer.MAX_VALUE;
+        String save = null;
+        for(Map.Entry row :data.entrySet()){
+            String value = (String)row.getValue();
+            if(value != null ) {
+                int size = value.length();
+                if (max > size) {
+                    save = value;
+                    max = size;
+                }
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return longest string of the datacol
+     * @return longest string or null if the col is empty
+     */
+    protected String max() {
+        int max = -1;
+        String save = null;
+        for(Map.Entry row :data.entrySet()){
+            String value = (String)row.getValue();
+            if(value != null ) {
+                int size = value.length();
+                if (max < size) {
+                    save = value;
+                    max = size;
+                }
+            }
+        }
+        return save;
     }
 }

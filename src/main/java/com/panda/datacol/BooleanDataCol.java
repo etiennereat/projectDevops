@@ -1,5 +1,7 @@
 package com.panda.datacol;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 
 /**
@@ -85,4 +87,6 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+
 }

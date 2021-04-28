@@ -215,4 +215,28 @@ public class DoubleDataColTest {
         DoubleDataCol dc = new DoubleDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
     }
+
+    @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        double[] values = {1, 5, 3, 4, 2,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertEquals(5.2, dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        double[] values = {1, 5, 3, 4, 0.99,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertEquals(0.99, dc.min());
+    }
+
+    @Test
+    @DisplayName("Test means")
+    public void testMeans() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        Assertions.assertEquals(2.55, dc.means());
+    }
 }
