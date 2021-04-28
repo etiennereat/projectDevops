@@ -275,4 +275,70 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
             }
         }
     }
+
+    /**
+     * add double from col to this
+     * @param doubleDataCol
+     */
+    public void addCol(DoubleDataCol doubleDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                Double integer = doubleDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),integer+value);
+                }
+            }
+        }
+    }
+
+    /**
+     * sub double from col to this
+     * @param doubleDataCol
+     */
+    public void subCol(DoubleDataCol doubleDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                Double integer = doubleDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),value - integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * divide double from col to this
+     * assert fail if 0 in integerDataCol
+     * @param doubleDataCol
+     */
+    public void divideCol(DoubleDataCol doubleDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                Double integer = doubleDataCol.get((String)row.getKey());
+                if(integer != null ){
+                    assert(integer != 0);
+                    data.put((String) row.getKey(),value/integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * multiply double from col to this
+     * @param doubleDataCol
+     */
+    public void multiplyCol(DoubleDataCol doubleDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                Double integer = doubleDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),integer*value);
+                }
+            }
+        }
+    }
 }

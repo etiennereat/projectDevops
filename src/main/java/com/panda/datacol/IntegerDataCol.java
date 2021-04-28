@@ -267,4 +267,70 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
             }
         }
     }
+
+    /**
+     * add integer from col to this
+     * @param integerDataCol
+     */
+    public void addCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),integer+value);
+                }
+            }
+        }
+    }
+
+    /**
+     * sub integer from col to this
+     * @param integerDataCol
+     */
+    public void subCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),value-integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * divide integer from col to this
+     * assert fail if 0 in integerDataCol
+     * @param integerDataCol
+     */
+    public void divideCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null ){
+                    assert(integer != 0);
+                    data.put((String) row.getKey(),value/integer);
+                }
+            }
+        }
+    }
+
+    /**
+     * multiply integer from col to this
+     * @param integerDataCol
+     */
+    public void multiplyCol(IntegerDataCol integerDataCol){
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                Integer integer = integerDataCol.get((String)row.getKey());
+                if(integer != null){
+                    data.put((String) row.getKey(),value*integer);
+                }
+            }
+        }
+    }
 }

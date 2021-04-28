@@ -336,4 +336,30 @@ public class StringDataColTest {
             label++;
         }
     }
+
+    @Test
+    @DisplayName("test concat right with another datacol ")
+    public void testConcateDatacolRight() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] values2 = {"Mr.", "Mme.", "Mlle.", "Miss", "Mister"};
+        StringDataCol dc = new StringDataCol(values);
+        StringDataCol dc2 = new StringDataCol(values2);
+        dc.concatenateRight(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test concat left with another datacol ")
+    public void testConcateDatacolLeft() {
+        String[] values = {"Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] values2 = {"Mr.", "Mme.", "Mlle.", "Miss", "Mister"};
+        StringDataCol dc = new StringDataCol(values2);
+        StringDataCol dc2 = new StringDataCol(values);
+        dc.concatenateLeft(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label]+values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
 }

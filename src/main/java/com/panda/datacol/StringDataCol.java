@@ -186,5 +186,37 @@ public class StringDataCol extends AbstractDataCol<String> {
         }
     }
 
+    /**
+     * concatenate at right all String of stringCol in this
+     * @param stringCol datacol to concatenate
+     */
+    public void concatenateRight(StringDataCol stringCol){
+        for (Map.Entry row : data.entrySet()) {
+            String value = (String) row.getValue();
+            if (value != null) {
+                String string = stringCol.get((String)row.getKey());
+                if(string != null){
+                    data.put((String) row.getKey(),value+string);
+                }
+            }
+        }
+    }
+
+    /**
+     * concatenate at left all String of stringCol in this
+     * @param stringCol datacol to concatenate
+     */
+    public void concatenateLeft(StringDataCol stringCol){
+        for (Map.Entry row : data.entrySet()) {
+            String value = (String) row.getValue();
+            if (value != null) {
+                String string = stringCol.get((String)row.getKey());
+                if(string != null){
+                    data.put((String) row.getKey(),string+value);
+                }
+            }
+        }
+    }
+
 
 }
