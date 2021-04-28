@@ -291,6 +291,48 @@ public class DataFrame {
     }
 
     /**
+     * Return the first n colums of the DataFrame (soft copy of the column)
+     * If n <= 0 or n >= nb_column
+     * return null;
+     *
+     * @param n - Integer
+     * @return df - A new DataFrame with n the first column of this
+     */
+    public DataFrame head(int n){
+        if (n <= 0 || n >= getColsCount()){return null;}
+        DataFrame df = new DataFrame();
+        int i = 0;
+        String l;
+        while(i < n){
+            l = this.labels.get(i);
+            df.addCol(l,table.get(l));
+            i++;
+        }
+        return df;
+    }
+
+    /**
+     * Return the last n colums of the DataFrame (soft copy of the column)
+     * If n <= 0 or n >= nb_column
+     * return null;
+     *
+     * @param n - Integer
+     * @return df - A new DataFrame with n the last column of this
+     */
+    public DataFrame tail(int n){
+        if (n <= 0 || n >= getColsCount()){return null;}
+        DataFrame df = new DataFrame();
+        int i = n;
+        String l;
+        while(i < getColsCount()){
+            l = this.labels.get(i);
+            df.addCol(l,table.get(l));
+            i++;
+        }
+        return df;
+    }
+
+    /**
      * Prints the entire DataFrame
      */
     public void show() {
@@ -301,24 +343,6 @@ public class DataFrame {
         for(String index : getIndexes()){
             show(index);
         }
-    }
-
-    /**
-     * Prints the first n colums of the DataFrame
-     *
-     * @param n - Integer
-     */
-    public void head(int n){
-        //Todo
-    }
-
-    /**
-     * Prints the last n colums of the DataFrame
-     *
-     * @param n - Integer
-     */
-    public void tail(int n){
-        //Todo
     }
 
     /**
