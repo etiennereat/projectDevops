@@ -635,4 +635,40 @@ public class DataFrameTest {
         df.show("a");
         assert(true);
     }
+
+    @Test
+    @DisplayName("Test head(n)")
+    public void testhead() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        double[] data = new double[]{1.0, 2.0, 3.0};
+
+        df.addCol("col1", new DoubleDataCol(data, indexes));
+        df.addCol("col2", new DoubleDataCol(data, indexes));
+        df.addCol("col3", new DoubleDataCol(data, indexes));
+        df.addCol("col4", new DoubleDataCol(data, indexes));
+
+        DataFrame df2;
+        df2 = df.head(2);
+
+        Assertions.assertEquals(df.table.get("a"),df2.table.get("a"));
+        Assertions.assertEquals(df.table.get("b"),df2.table.get("b"));
+    }
+
+    @Test
+    @DisplayName("Test tail(n)")
+    public void testtail() {
+        String[] indexes = new String[]{"a", "b", "c"};
+        double[] data = new double[]{1.0, 2.0, 3.0};
+
+        df.addCol("col1", new DoubleDataCol(data, indexes));
+        df.addCol("col2", new DoubleDataCol(data, indexes));
+        df.addCol("col3", new DoubleDataCol(data, indexes));
+        df.addCol("col4", new DoubleDataCol(data, indexes));
+
+        DataFrame df2;
+        df2 = df.tail(2);
+
+        Assertions.assertEquals(df.table.get("b"),df2.table.get("b"));
+        Assertions.assertEquals(df.table.get("c"),df2.table.get("c"));
+    }
 }
