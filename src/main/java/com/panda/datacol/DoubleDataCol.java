@@ -1,6 +1,7 @@
 package com.panda.datacol;
 
 import java.util.*;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -142,6 +143,76 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
             }
         }
         return true;
+    }
+
+
+    /**
+     * return min value of the datacol
+     * @return min value or null if the col is empty
+     */
+    protected Double min() {
+        Double min = Double.MAX_VALUE;
+        Double save = null;
+        for(Map.Entry row :data.entrySet()){
+            Double value = (Double)row.getValue();
+            if(value != null && min > value){
+                min = value;
+                save = value;
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return max value of the datacol
+     * @return max value or null if the col is empty
+     */
+    protected Double max() {
+        if(getSize()==0){
+            return null;
+        }
+        Double max = Double.MIN_VALUE;
+        Double save = null;
+        for(Map.Entry row :data.entrySet()){
+            Double value = (Double)row.getValue();
+            if(value != null && max < value){
+                max = value;
+                save = value;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * return means of Double in the datacol
+     * @return means value or 0 if empty
+     */
+    public double means() {
+        double somme = 0;
+        double compteur =0;
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if(value != null ) {
+                somme += value;
+                compteur++;
+            }
+        }
+        return somme / Math.max(compteur,1);
+    }
+
+    /**
+     * return sum of Double in the datacol
+     * @return sum value or 0 if empty
+     */
+    public double sum(){
+        double somme = 0;
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if(value != null ) {
+                somme += value;
+            }
+        }
+        return somme;
     }
 
 }

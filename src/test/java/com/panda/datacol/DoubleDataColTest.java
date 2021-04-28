@@ -217,6 +217,42 @@ public class DoubleDataColTest {
     }
 
     @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        double[] values = {8, 5, 3, 4, 2,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(5.2, dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        double[] values = {0.99, 5, 3, 4, 1,5.2,3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(1, dc.min());
+    }
+
+    @Test
+    @DisplayName("Test means")
+    public void testMeans() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(3.11875, dc.means());
+    }
+
+    @Test
+    @DisplayName("Test sum")
+    public void testSum() {
+        double[] values = {-2,1.2, 5, 3.5, 4, 0.5,5.2,3,2.55};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(24.95, dc.sum());
+    }
+
+    @Test
     @DisplayName("Test isSorted, 0 elements")
     public void testIsSorted0(){
         DoubleDataCol dc = new DoubleDataCol();

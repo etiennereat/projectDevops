@@ -1,6 +1,9 @@
 package com.panda.datacol;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.*;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -138,4 +141,37 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         }
         return true;
     }
+
+
+    /**
+     * return distribution of true and false in the datacol
+     * @return int[2] = {trueNB,FalseNB}
+     */
+    public int[] distribution(){
+        int[] distrib = {0,0};
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if(value != null ) {
+                if(value){
+                    distrib[0]++;
+                }
+                else{
+                    distrib[1]++;
+                }
+            }
+        }
+        return distrib;
+    }
+
+    /**
+     * return proportion of true in the datacol
+     * @return proportion or 0 if it's empty
+     */
+    public double trueProportion(){
+        int[] distrib = distribution();
+        return (double)(distrib[0]) / (double)(Math.max(distrib[0]+distrib[1],1)) * 100.;
+    }
+
+
+
 }

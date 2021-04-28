@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 /**
- * Unit test for simple BooleanDataCol.
+ * Unit test for simple DoubleDataCol.
  */
 public class BooleanDataColTest {
 
@@ -213,6 +213,26 @@ public class BooleanDataColTest {
     public void testToStringEmptyCol() {
         BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
+    }
+
+    @Test
+    @DisplayName("Test proportion of true")
+    public void testTrueProportion() {
+        boolean[] values = {true, false, false, false, false, true, false, false, false, false, true, false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        Assertions.assertEquals(2. / 11. * 100., dc.trueProportion());
+    }
+
+    @Test
+    @DisplayName("Test distribution")
+    public void testdistribution() {
+        boolean[] values = {true, false, false, false, false, true, false, false, false, false, true, false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        int[] distrib = dc.distribution();
+        Assertions.assertEquals(2,distrib[0]);
+        Assertions.assertEquals(9,distrib[1]);
     }
 
     @Test

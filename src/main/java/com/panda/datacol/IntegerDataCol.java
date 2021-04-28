@@ -1,6 +1,7 @@
 package com.panda.datacol;
 
 import java.util.*;
+import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -85,6 +86,72 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         IntegerDataCol newDataCol = new IntegerDataCol();
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
+    }
+
+    /**
+     * return min value of the datacol
+     * @return min value or null if the col is empty
+     */
+    public Integer min() {
+        Integer min = Integer.MAX_VALUE;
+        Integer save = null;
+        for(Map.Entry row :data.entrySet()){
+            Integer value = (Integer)row.getValue();
+            if(value != null && min > value){
+                min = value;
+                save = value;
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return max value of the datacol
+     * @return max value or null if the col is empty
+     */
+    public Integer max() {
+        Integer max = Integer.MIN_VALUE;
+        Integer save = null;
+        for(Map.Entry row :data.entrySet()){
+            Integer value = (Integer)row.getValue();
+            if(value != null && max < value){
+                max = value;
+                save = value;
+            }
+        }
+        return save;
+    }
+
+    /**
+     * return means of integer in the datacol
+     * @return means value or 0 if empty
+     */
+    public double means() {
+        double somme = 0;
+        double compteur =0;
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if(value != null ) {
+                somme += value;
+                compteur++;
+            }
+        }
+        return somme / Math.max(compteur,1);
+    }
+
+    /**
+     * return sum of Double in the datacol
+     * @return sum value or 0 if empty
+     */
+    public int sum() {
+        int somme = 0;
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if(value != null ) {
+                somme += value;
+            }
+        }
+        return somme;
     }
 
     /**

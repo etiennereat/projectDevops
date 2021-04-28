@@ -217,6 +217,43 @@ public class IntegerDataColTest {
     }
 
     @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        int[] values = {1, 5, 3, 4, 2,1,3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
+        Assertions.assertEquals(4, dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        int[] values = {1, -5, 3, 4, 200,-1,3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
+        Assertions.assertEquals(-1, dc.min());
+    }
+
+    @Test
+    @DisplayName("Test means")
+    public void testMeans() {
+        int[] values = {1, 5, 3, 4, 9,-1,3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
+        Assertions.assertEquals(3.1666666666666665, dc.means());
+    }
+
+    @Test
+    @DisplayName("Test sum")
+    public void testSum() {
+        int[] values = {1, 5, 3, 4, 9,-1,3};
+        IntegerDataCol dc = new IntegerDataCol(values);
+        dc.remove("1");
+        Assertions.assertEquals(19, dc.sum());
+    }
+
+
+    @Test
     @DisplayName("Test isSorted, 0 elements")
     public void testIsSorted0(){
         IntegerDataCol dc = new IntegerDataCol();

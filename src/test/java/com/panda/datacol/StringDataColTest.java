@@ -217,6 +217,24 @@ public class StringDataColTest {
     }
 
     @Test
+    @DisplayName("Test max")
+    public void testMax() {
+        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        StringDataCol dc = new StringDataCol(values);
+        dc.remove("4");
+        Assertions.assertEquals("trois", dc.max());
+    }
+
+    @Test
+    @DisplayName("Test min")
+    public void testMin() {
+        String[] values = {"zero","un", "deux", "trois", "quatre", "cinq"};
+        StringDataCol dc = new StringDataCol(values);
+        dc.remove("1");
+        Assertions.assertEquals("zero", dc.min());
+    }
+
+    @Test
     @DisplayName("Test isSorted, 0 elements")
     public void testIsSorted0(){
         StringDataCol dc = new StringDataCol();
