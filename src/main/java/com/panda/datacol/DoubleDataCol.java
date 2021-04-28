@@ -1,6 +1,6 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map;
 
 /**
@@ -86,6 +86,65 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
     }
+
+    /**
+     * Sorts the data column (attribute data) by value from lowest double to highest
+     * Replaces original data, doesn't return anything
+     */
+    @Override
+    public void sortByValue() {
+        HashMap passedMap = this.data;
+        List<Double> mapValues = new ArrayList(passedMap.values());
+        List<String> mapKeys = new ArrayList(passedMap.keySet());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
+
+        HashMap<String, Double> sortedMap = new LinkedHashMap<>();
+
+        Iterator<Double> valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Double val = valueIt.next();
+            Iterator<String> keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                String key = keyIt.next();
+                Double comp1 = (double) passedMap.get(key);
+
+                if (val.equals(comp1)) {
+                    keyIt.remove();
+                    sortedMap.put(key, val);
+                    break;
+                }
+            }
+        }
+        this.data = sortedMap;
+    }
+
+    /**
+     * Returns whether the double data column is sorted
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
+    @Override
+    public boolean isSorted() {
+        if(this.data.isEmpty()){return true;}
+        double current, previous = 0;
+        boolean isFirst = true;
+
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (double) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (double) (mapentry.getValue());
+                if(previous > current){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * return min value of the datacol

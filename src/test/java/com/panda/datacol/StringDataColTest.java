@@ -233,4 +233,65 @@ public class StringDataColTest {
         dc.remove("1");
         Assertions.assertEquals("zero", dc.min());
     }
+
+    @Test
+    @DisplayName("Test isSorted, 0 elements")
+    public void testIsSorted0(){
+        StringDataCol dc = new StringDataCol();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 1 elements")
+    public void testIsSorted1(){
+        String[] values = {"Flacide"};
+        String[] indexes = {"a"};
+        StringDataCol dc = new StringDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, not sorted")
+    public void testIsSortedFalse(){
+        String[] values = { "BurgerKing", "Abo", "Bazinga"};
+        String[] indexes = { "a", "b", "c"};
+        StringDataCol dc = new StringDataCol(values, indexes);
+        Assertions.assertFalse(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, not sorted, 3rd letter")
+    public void testIsSortedFalseHard(){
+        String[] values = { "Whbt", "What", "Whct"};
+        String[] indexes = { "a", "b", "c"};
+        StringDataCol dc = new StringDataCol(values, indexes);
+        Assertions.assertFalse(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, sorted")
+    public void testIsSorted(){
+        String[] values = { "Abc", "Bca", "Cab"};
+        String[] indexes = { "a", "b", "c"};
+        StringDataCol dc = new StringDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, no element")
+    public void testSortEmpty(){
+        StringDataCol dc = new StringDataCol();
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, 5 elems")
+    public void testSort1(){
+        String[] values = { "Xin Zhao", "Abtrox", "Aatrox", "Vayne", "Vel'Koz"};
+        String[] indexes = { "a", "b", "c", "d", "e"};
+        StringDataCol dc = new StringDataCol(values, indexes);
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
 }

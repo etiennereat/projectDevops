@@ -2,7 +2,7 @@ package com.panda.datacol;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map;
 
 /**
@@ -87,6 +87,59 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         BooleanDataCol newDataCol = new BooleanDataCol();
         selectRowsInto(indexes, newDataCol);
         return newDataCol;
+    }
+
+    /**
+     * Sorts the data column (attribute data) by value, with true first and then false
+     * Replaces original data, doesn't return anything
+     */
+    @Override
+    public void sortByValue() {
+        HashMap<String, Boolean> mapRes= new HashMap<>();
+        List<String> keysList = new ArrayList(this.data.keySet());
+        int i = 0;
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (!val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+        this.data = mapRes;
+    }
+
+    /**
+     * Returns whether the boolean data column is sorted (only true then only false)
+     * @return a boolean indicating whether the hashmap's values are sorted
+     */
+    @Override
+    public boolean isSorted() {
+        boolean isFirst = true;
+        boolean current, previous = true;
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (boolean) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (boolean) (mapentry.getValue());
+                if(current && !previous){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
     }
 
 

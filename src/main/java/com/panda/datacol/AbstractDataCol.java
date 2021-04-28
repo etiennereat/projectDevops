@@ -159,6 +159,7 @@ public abstract class AbstractDataCol<T> implements DataCol {
         System.out.println(this);
     }
 
+
     @Override
     public String toString() {
         if (indexes.size() == 0) {
