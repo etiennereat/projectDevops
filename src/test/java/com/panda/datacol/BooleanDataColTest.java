@@ -302,4 +302,43 @@ public class BooleanDataColTest {
             label++;
         }
     }
+
+    @Test
+    @DisplayName("test and operation ")
+    public void testAnd() {
+        boolean[] values = {false, true, false, true, true};
+        boolean[] values2 = {true, true, false, true, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.and(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals(values[label] && values2[label], dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test or operation ")
+    public void testOr() {
+        boolean[] values = {false, true, true, false, true};
+        boolean[] values2 = {true, true, false, false, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.or(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals(values[label] || values2[label], dc.get(Integer.toString(label)));
+        }
+    }
+
+    @Test
+    @DisplayName("test xor operation ")
+    public void testXor() {
+        boolean[] values = {false, true, true, false, true};
+        boolean[] values2 = {true, true, false, false, true,false};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        BooleanDataCol dc2 = new BooleanDataCol(values2);
+        dc.xor(dc2);
+        for (int label=0; label < values.length ; label++) {
+            Assertions.assertEquals((values[label] || values2[label]) && (values[label] != values2[label]), dc.get(Integer.toString(label)));
+        }
+    }
 }

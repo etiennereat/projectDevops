@@ -172,6 +172,52 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
         return (double)(distrib[0]) / (double)(Math.max(distrib[0]+distrib[1],1)) * 100.;
     }
 
+    /**
+     * applies the and operation between boolcol into this
+     * @param boolcol
+     */
+    public void and(BooleanDataCol boolcol){
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if (value != null) {
+                Boolean bool = boolcol.get((String) row.getKey());
+                if(bool != null){
+                    data.put((String) row.getKey(), value && bool);
+                }
+            }
+        }
+    }
 
+    /**
+     * applies the or operation between boolcol into this
+     * @param boolcol
+     */
+    public void or(BooleanDataCol boolcol){
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if (value != null) {
+                Boolean bool = boolcol.get((String) row.getKey());
+                if(bool != null){
+                    data.put((String) row.getKey(), value || bool);
+                }
+            }
+        }
+    }
+
+    /**
+     * applies the xor operation between boolcol into this
+     * @param boolcol
+     */
+    public void xor(BooleanDataCol boolcol){
+        for (Map.Entry row : data.entrySet()) {
+            Boolean value = (Boolean) row.getValue();
+            if (value != null) {
+                Boolean bool = boolcol.get((String) row.getKey());
+                if(bool != null){
+                    data.put((String) row.getKey(),(value || bool) && (value != bool));
+                }
+            }
+        }
+    }
 
 }
