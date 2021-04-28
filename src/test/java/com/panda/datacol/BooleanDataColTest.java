@@ -258,7 +258,7 @@ public class BooleanDataColTest {
     }
 
     @Test
-    @DisplayName("Test isSort, 5 elems")
+    @DisplayName("Test sortByValue, 5 elems")
     public void testSort1(){
         boolean[] values = {false, true, true, false, true};
         String[] indexes = { "a", "b", "c", "d", "e"};

@@ -259,7 +259,7 @@ public class IntegerDataColTest {
     }
 
     @Test
-    @DisplayName("Test isSort, 5 elems")
+    @DisplayName("Test sortByValue, 5 elems")
     public void testSort1(){
         int[] values = { 1, 4, 2, 13, 3};
         String[] indexes = { "a", "b", "c", "d", "e"};
