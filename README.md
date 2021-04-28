@@ -28,6 +28,8 @@ Supported operations on tables / rows / columns:
 - select ranges of columns or rows
 - sort rows
 
+Visit our [website](https://etiennereat.github.io/projectDevops/) in order to read the full documentation of the library.
+
 ## How to build
 
 In order to compile the source code, execute :
