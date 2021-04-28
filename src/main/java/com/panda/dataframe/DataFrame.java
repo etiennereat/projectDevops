@@ -325,7 +325,6 @@ public class DataFrame {
         int i = n;
         String l;
         while(i < getColsCount()){
-            System.out.println(i);
             l = this.labels.get(i);
             df.addCol(l,table.get(l));
             i++;
