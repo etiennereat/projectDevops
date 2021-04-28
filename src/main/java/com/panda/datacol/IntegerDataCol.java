@@ -211,4 +211,60 @@ public class IntegerDataCol extends AbstractDataCol<Integer> {
         }
         return true;
     }
+
+
+    /**
+     * add to all int in datacol the value in parameter
+     *
+     * @param valueToAdd value to add
+     */
+    public void addToAll(int valueToAdd) {
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value += valueToAdd;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * sub to all int in datacol the value in parameter
+     *
+     * @param valueToSub value to sub
+     */
+    public void subToAll(int valueToSub) {
+        addToAll(-valueToSub);
+    }
+
+    /**
+     * multiply to all int in datacol the value in parameter
+     *
+     * @param valueTomultiply value to multiply
+     */
+    public void multiplyToAll(int valueTomultiply) {
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value *= valueTomultiply;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * divide to all int in datacol the value in parameter
+     * assert fail if valueTodivide equals 0
+     * @param valueTodivide value to multiply
+     */
+    public void divideToAll(int valueTodivide) {
+        assert(valueTodivide != 0);
+        for (Map.Entry row : data.entrySet()) {
+            Integer value = (Integer) row.getValue();
+            if (value != null) {
+                value /= valueTodivide;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
 }

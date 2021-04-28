@@ -2,6 +2,7 @@ package com.panda.datacol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Abstract class offering shared functionality between different
@@ -215,5 +216,19 @@ public abstract class AbstractDataCol<T> implements DataCol {
             }
         }
     }
+
+    /**
+     * replace all empty space by fill parameter
+     * @param fill value who replace empty space
+     */
+    public void fillEmptySpaceWith(T fill){
+        for(Map.Entry row :data.entrySet()){
+            T value = (T) row.getValue();
+            if(value == null ) {
+                data.put((String) row.getKey(), fill);
+            }
+        }
+    }
+
 
 }

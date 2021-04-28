@@ -1,7 +1,6 @@
 package com.panda.datacol;
 
 import java.util.*;
-import java.util.Map;
 
 /**
  * DataColumn of Integers.
@@ -122,21 +121,24 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
 
     /**
      * Returns whether the double data column is sorted
+     *
      * @return a boolean indicating whether the hashmap's values are sorted
      */
     @Override
     public boolean isSorted() {
-        if(this.data.isEmpty()){return true;}
+        if (this.data.isEmpty()) {
+            return true;
+        }
         double current, previous = 0;
         boolean isFirst = true;
 
-        for (Map.Entry mapentry : this.data.entrySet()){
-            if(isFirst){
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            if (isFirst) {
                 previous = (double) (mapentry.getValue());
                 isFirst = false;
-            }else{
+            } else {
                 current = (double) (mapentry.getValue());
-                if(previous > current){
+                if (previous > current) {
                     return false;
                 }
                 previous = current;
@@ -148,14 +150,15 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
 
     /**
      * return min value of the datacol
+     *
      * @return min value or null if the col is empty
      */
     protected Double min() {
         Double min = Double.MAX_VALUE;
         Double save = null;
-        for(Map.Entry row :data.entrySet()){
-            Double value = (Double)row.getValue();
-            if(value != null && min > value){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null && min > value) {
                 min = value;
                 save = value;
             }
@@ -165,17 +168,18 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
 
     /**
      * return max value of the datacol
+     *
      * @return max value or null if the col is empty
      */
     protected Double max() {
-        if(getSize()==0){
+        if (getSize() == 0) {
             return null;
         }
         Double max = Double.MIN_VALUE;
         Double save = null;
-        for(Map.Entry row :data.entrySet()){
-            Double value = (Double)row.getValue();
-            if(value != null && max < value){
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null && max < value) {
                 max = value;
                 save = value;
             }
@@ -185,34 +189,90 @@ public class DoubleDataCol extends AbstractDataCol<Double> {
 
     /**
      * return means of Double in the datacol
+     *
      * @return means value or 0 if empty
      */
     public double means() {
         double somme = 0;
-        double compteur =0;
+        double compteur = 0;
         for (Map.Entry row : data.entrySet()) {
             Double value = (Double) row.getValue();
-            if(value != null ) {
+            if (value != null) {
                 somme += value;
                 compteur++;
             }
         }
-        return somme / Math.max(compteur,1);
+        return somme / Math.max(compteur, 1);
     }
 
     /**
      * return sum of Double in the datacol
+     *
      * @return sum value or 0 if empty
      */
-    public double sum(){
+    public double sum() {
         double somme = 0;
         for (Map.Entry row : data.entrySet()) {
             Double value = (Double) row.getValue();
-            if(value != null ) {
+            if (value != null) {
                 somme += value;
             }
         }
         return somme;
     }
 
+    /**
+     * add to all double in datacol the value in parameter
+     *
+     * @param valueToAdd value to add
+     */
+    public void addToAll(double valueToAdd) {
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                value += valueToAdd;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * sub to all double in datacol the value in parameter
+     *
+     * @param valueToSub value to sub
+     */
+    public void subToAll(double valueToSub) {
+        addToAll(-valueToSub);
+    }
+
+    /**
+     * multiply to all double in datacol the value in parameter
+     *
+     * @param valueTomultiply value to multiply
+     */
+    public void multiplyToAll(double valueTomultiply) {
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                value *= valueTomultiply;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
+
+    /**
+     * divide to all double in datacol the value in parameter
+     * assert fail if valueTodivide equals 0
+     * @param valueTodivide value to multiply
+     */
+    public void divideToAll(double valueTodivide) {
+        assert(valueTodivide != 0);
+        for (Map.Entry row : data.entrySet()) {
+            Double value = (Double) row.getValue();
+            if (value != null) {
+                value /= valueTodivide;
+                data.put((String) row.getKey(), value);
+            }
+        }
+    }
 }

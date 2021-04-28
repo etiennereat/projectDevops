@@ -303,4 +303,72 @@ public class DoubleDataColTest {
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
     }
+
+    @Test
+    @DisplayName("Test add to all element")
+    public void testAddToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.addToAll(1.4);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest + 1.4, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test sub to all element")
+    public void testSubToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.subToAll(1.4);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest - 1.4, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test multiply to all element")
+    public void testMultiplyToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.multiplyToAll(2.2);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest* 2.2, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("Test divide to all element")
+    public void testDivideToAll() {
+        double[] values = {1, 4, -2, 13, 3};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.divideToAll(2.5);
+        int label = 0;
+        for(double valueTest : values) {
+            Assertions.assertEquals(valueTest/2.5, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        double[] values = {1, 4, -2, 13, 3};
+        double[] valueGoal = {1, 8.2, -2, 13, 8.2};
+        DoubleDataCol dc = new DoubleDataCol(values);
+        dc.remove("1");
+        dc.remove("4");
+        dc.fillEmptySpaceWith(8.2);
+        int label = 0;
+        for (double valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
 }

@@ -286,4 +286,20 @@ public class BooleanDataColTest {
         dc.sortByValue();
         Assertions.assertTrue(dc.isSorted());
     }
+
+    @Test
+    @DisplayName("test fill empty space")
+    public void testFillEmptySpace() {
+        boolean[] values = {true, true, true, true, true};
+        boolean[] valueGoal = {false, true, true, false, true};
+        BooleanDataCol dc = new BooleanDataCol(values);
+        dc.remove("0");
+        dc.remove("3");
+        dc.fillEmptySpaceWith(false);
+        int label = 0;
+        for (boolean valueTest : valueGoal) {
+            Assertions.assertEquals(valueTest, dc.get(Integer.toString(label)));
+            label++;
+        }
+    }
 }
