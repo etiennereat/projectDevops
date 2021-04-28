@@ -1,6 +1,6 @@
 package com.panda.datacol;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * DataColumn of Integers.
@@ -88,11 +88,46 @@ public class BooleanDataCol extends AbstractDataCol<Boolean> {
 
     @Override
     public void sortByValue() {
-        //
+        HashMap<String, Boolean> mapRes= new HashMap<>();
+        List<String> keysList = new ArrayList(this.data.keySet());
+        int i = 0;
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+
+        for (Map.Entry mapentry : this.data.entrySet()) {
+            boolean val = (boolean) (mapentry.getValue());
+            if (!val) {
+                String key = keysList.get(i);
+                i++;
+                mapRes.put(key, val);
+            }
+        }
+        this.data = mapRes;
     }
 
     @Override
     public boolean isSorted() {
-        return false;
+        boolean isFirst = true;
+        boolean current, previous = true;
+        for (Map.Entry mapentry : this.data.entrySet()){
+            if(isFirst){
+                previous = (boolean) (mapentry.getValue());
+                isFirst = false;
+            }else{
+                current = (boolean) (mapentry.getValue());
+                if(current && !previous){
+                    return false;
+                }
+                previous = current;
+            }
+        }
+        return true;
     }
 }

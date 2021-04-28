@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 /**
- * Unit test for simple DoubleDataCol.
+ * Unit test for simple BooleanDataCol.
  */
 public class BooleanDataColTest {
 
@@ -213,5 +213,57 @@ public class BooleanDataColTest {
     public void testToStringEmptyCol() {
         BooleanDataCol dc = new BooleanDataCol();
         Assertions.assertEquals("Empty column", dc.toString());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 0 elements")
+    public void testIsSorted0(){
+        BooleanDataCol dc = new BooleanDataCol();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 1 elements")
+    public void testIsSorted1(){
+        boolean[] values = {true};
+        String[] indexes = {"a"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, not sorted")
+    public void testIsSortedFalse(){
+        boolean[] values = { true, false, true};
+        String[] indexes = { "a", "b", "c"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertFalse(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSorted, 3 elements, sorted")
+    public void testIsSorted(){
+        boolean[] values = { true, true, false};
+        String[] indexes = { "a", "b", "c"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test sortByValue, no element")
+    public void testSortEmpty(){
+        BooleanDataCol dc = new BooleanDataCol();
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
+    }
+
+    @Test
+    @DisplayName("Test isSort, 5 elems")
+    public void testSort1(){
+        boolean[] values = {false, true, true, false, true};
+        String[] indexes = { "a", "b", "c", "d", "e"};
+        BooleanDataCol dc = new BooleanDataCol(values, indexes);
+        dc.sortByValue();
+        Assertions.assertTrue(dc.isSorted());
     }
 }
